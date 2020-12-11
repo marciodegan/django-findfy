@@ -11,7 +11,7 @@
 ##### - Full Management and ordering process
 ##### - Cool feature for customers at the place to interact
 
-<img src="/base/images/screenshot1.jpg" alt="">
+<img src="/base/static/base/images/screenshot1.jpg" alt="">
 <img src="screenshot2.jpg" alt="">
 <img src="screenshot3a.jpg" alt="">
 <img src="screenshot4a.jpg" alt="">

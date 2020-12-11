@@ -1,6 +1,5 @@
 ### FINDFY
-
-#### This is a personal project.
+###### This is a personal WebApp project.
 
 #### It creates QRCode menus for PUBs and Restaurants, and have some cool tools for management and ordering process.
 

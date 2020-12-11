@@ -12,11 +12,11 @@
 ##### - Cool feature for customers at the place to interact
 
 <img src="/base/static/base/images/screenshot1.jpg" alt="">
-<img src="screenshot2.jpg" alt="">
-<img src="screenshot3a.jpg" alt="">
-<img src="screenshot4a.jpg" alt="">
-<img src="screenshot5a.jpg" alt="">
-<img src="screenshot6.jpg" alt="">
-<img src="screenshot7.jpg" alt="">
+<img src="/base/static/base/images/screenshot2.jpg" alt="">
+<img src="/base/static/base/images/screenshot3a.jpg" alt="">
+<img src="/base/static/base/images/screenshot4a.jpg" alt="">
+<img src="/base/static/base/images/screenshot5a.jpg" alt="">
+<img src="/base/static/base/images/screenshot6.jpg" alt="">
+<img src="/base/static/base/images/screenshot7.jpg" alt="">
 
 

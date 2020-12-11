@@ -1,0 +1,76 @@
+{% extends 'base/_base_index.html' %}
+
+{% block title %}FindFy{% endblock %}
+
+{% block body_title %}FindFY - Início{% endblock %}
+
+{% block body_content %}
+    <div class="container bg-blue">
+               
+        {% if user.is_anonymous %}
+        <br><br><br><br><br><br>
+        <h4 class="text-center font-weight-bold text-white">FindFY</h4>
+            {% include 'base/_notice_login.html' %}
+        {% else %}
+
+        <br><br><br>
+        <div class= "row mb-3 align-items-center">
+            <div class="col-lg-6" style="float:none;margin:auto;">
+                <div class="text-center text-white">
+                    {% for i in profile %}
+                    <a href="/profile">
+                    <img width="100" heigth="100" src="{{ i.avatar.url }}" style="border-radius:50%;border:3px solid white;">      
+                    </a>
+                    <br>
+                    <h6 class="text-weight-bold font-weight-bold"> {{i.user.first_name}} {{i.user.last_name}}</h5>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class= "row">
+            <div class="col-lg-6 style="float:none;margin:auto;">
+                <div class="card shadow mb-4 bg-light text-dark"  style="border-radius: 15px;">                   
+                    <div class="card-body text-center">  
+                        <a class="btn btn-dark btn-lg btn-block" role="button" href="{% url 'index-tables' %}">Entrar como<br><strong>CLIENTE</strong></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class= "row">
+            <div class="col-lg-6">
+                <div class="card shadow mb-4 bg-light text-dark"  style="border-radius: 15px;" >      
+                    <div class="card-body text-center">  
+                        <a class="btn btn-success btn-lg btn-block" role="button" href="/local">Entrar como<br><strong>ESTABELECIMENTO</strong></a>
+                    </div>
+                    {% if atendente %}
+                    <div class="card-body text-center">  
+                        <a class="btn btn-dark btn-block" role="button" href="{% url 'index-tables-atendente' %}"><strong>Entrar como<br>ATENDENTE</strong></a>
+                    </div>
+                    {% endif %}
+                    {% if atendentemaster %}
+                    <div class="card-body text-center">  
+                        <a class="btn btn-dark btn-block" role="button" href="{% url 'index-atendente-master' %}"><strong>Entrar como<br>ATENDENTE MASTER</strong></a>
+                    </div>
+                    {% endif %}
+                    {% if cozinha %}
+                    <div class="card-body text-center">  
+                        <a class="btn btn-dark btn-block" role="button" href="{% url 'index-cozinha' %}"><strong>Entrar<br>como COZINHA</strong></a>
+                    </div>
+                    {% endif %}
+                    {% if bar %}
+                    <div class="card-body text-center">  
+                        <a class="btn btn-dark btn-block" role="button" href="{% url 'index-bar' %}"><strong>Entrar<br>como BAR</strong></a>
+                    </div>
+                    {% endif %}
+                    {% if caixa %}
+                    <div class="card-body text-center">  
+                        <a class="btn btn-dark btn-block" role="button" href="{% url 'index-caixa' %}"><strong>Entrar<br>como CAIXA</strong></a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    
+        
+{% endif %}
+{% endblock %}

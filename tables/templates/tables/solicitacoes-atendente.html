@@ -1,0 +1,316 @@
+{% comment %} {% extends 'base.html' %} {% endcomment %}
+{% load static %}
+{% load mathfilters %}
+{% load humanize %}
+{% comment %} {% block title %}Mesas{% endblock %}
+{% block content %} {% endcomment %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Gestão Atendente - </title>
+        <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}" />
+        <script src="{% static 'base/js/customjs.js' %}"></script>
+        <link rel="stylesheet" href="{% static 'base/css/styles.css' %}">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" crossorigin="anonymous"></script>
+         
+
+    </head>
+    <body class="sb-nav-fixed bg-dark">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <div class="col-lg-6">
+                <a href="" role="button" class="btn btn-lg btn-block btn-primary text-white font-weight-bold">ATUALIZAR</a>
+            </div>
+            <ul class="navbar-nav ml-auto ml-md-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-bars fa-fw"></i></a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                        <a class="dropdown-item" href="/">Início</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        <div id="layoutSidenav_content">
+            <main>
+            
+                <div class="container-fluid bg-dark mt-5 mb-5 pt-3">
+                    <div class="row">
+                        {% for i in tables_conta %}
+                        <div class="col-lg-12">
+                            <div class="card shadow mb-2 mt-1">
+                                <div class="card-header text-dark text-center bg-warning font-weight-bold">
+                                    Contas Solicitadas
+                                </div>
+                                <div class="card-body bg-dark p-2 text-white"> 
+                                    mesa:<strong>{{ i.table_number }}</strong><br> Fechar Conta: <strong>{{ i.item_user.first_name }} {{i.created_at|time:"G:i"}}</strong><br><strong>{{ i.item }}</strong>
+                                    <a href="/table/{{ i.restaurante.restaurante_ref }}/{{ i.table_check_number }}/garcomveraguardandoconta" role="button" class="btn btn-md btn-primary text-white font-weight-bold mt-1">Confirmar</a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% for i in tables_atendente %}
+                    {% if i.chamar_atendente == True %}
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card shadow mb-2 mt-1">
+                                <div class="card-header text-dark text-center bg-warning font-weight-bold">
+                                    CHAMADO MESA
+                                </div>
+                                <div class="card-body bg-dark p-2 text-white"> 
+                                    mesa:<strong>{{ i.table_number.table_number }}</strong><br></strong>
+                                    <a href="/table/{{ i.restaurante.restaurante_ref }}/{{ i.table_check_number }}/deschamar-atendente-confirma" role="button" class="btn btn-md btn-primary text-white font-weight-bold mt-1">Confirmar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% endfor %}
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card shadow mb-2 mt-1">
+                                <div class="card-header text-white bg-gradient-dark py-2 text-large text-center font-weight-bold">
+                                    SOLICITAÇÕES
+                                </div>
+                                {% for i in itens_confirmados %}
+                                {% if i.item.cozinha == True and i.cozinha_to_garcon == False and i.garcon_to_cozinha == False and i.garconconfirmed == False %}
+                                <div class="card-body bg-dark p-2 text-white">   
+                                    <div class="row">
+                                        <div class="col-lg-6 align-self-center">
+                                            <div class="text-medium">mesa:<strong>{{ i.table.table_number.table_number }}</strong></div>
+                                            <div class="text-small"><strong>{{ i.item }}</strong></div>
+                                            <div class="text-smallest"><strong> {{ i.item_user.first_name }} às {{i.created_at|time:"G:i"}}</strong></div>
+                                            <div class="text-small">{% if i.order_obs %}<span class="badge badge-info"><strong>{{ i.order_obs }}</span></strong>{% endif %}</div>
+                                            <div class="text-small"><span class="badge badge-danger">Espera: {{i.whenpublished}}</span></div>
+                                        </div>
+                                        <div class="col-lg-6 align-self-center">
+                                            {% comment %} <a href="/table/{{ i.table.restaurante.restaurante_ref }}/{{ i.table.table_check_number }}/{{ i.id }}/enviarcozinhamaster" role="button" class="btn btn-md btn-block btn-info text-white font-weight-bold">Enviar p/ cozinha?</a> {% endcomment %}
+                                            <a href="/table/{{ i.table.restaurante.restaurante_ref }}/{{ i.table.table_check_number }}/{{ i.pk }}/to-cozinha" role="button" class="btn btn-md btn-block btn-info text-white font-weight-bold mt-1">Enviar p/ cozinha?</a>
+                                            <a href="/table/{{ i.table.restaurante.restaurante_ref }}/{{ i.table.table_check_number }}/{{ i.pk }}/cancel" role="button" class="btn btn-sm btn-primary text-white mt-1">Cancelar</a>                        
+                                        </div>
+                                    </div>
+                                </div>
+                                {% elif i.item.cozinha == True and i.cozinha_to_garcon == True and i.garcon_to_cozinha == True and i.garconconfirmed == False %}
+                                <div class="card-body bg-dark p-2 text-white">
+                                    <div class="row">
+                                        <div class="col-lg-6 align-self-center">
+                                            <div class="text-medium"><span class="badge badge-warning">PRONTO NA COZINHA</span></div>
+                                            <div class="text-medium">mesa:<strong> {{ i.table.table_number.table_number }}</strong></div>
+                                            <div class="text-small"><strong>{{ i.item }}</strong></div>
+                                            <div class="text-smallest"><strong>{{ i.item_user.first_name }} às {{i.created_at|time:"G:i"}}</strong></div>
+                                            <div class="text-small">{% if i.order_obs %}<span class="badge badge-info"><strong>{{ i.order_obs }}</span></strong>{% endif %}</div>
+                                            <div class="text-small"><span class="badge badge-danger">Espera: {{i.whenpublished}}</span></div>
+                                        </div>
+                                        <div class="col-lg-6 align-self-center">  
+                                            <a href="/table/{{ i.table.restaurante.restaurante_ref }}/{{ i.table.table_check_number }}/{{ i.pk }}" role="button" class="btn btn-md btn-block btn-primary text-white font-weight-bold mt-1">Confirmar na mesa?</a>                                
+                                        </div>
+                                    </div>
+                                </div>
+                                {% elif i.item.bar == True and i.bar_to_garcon == False and i.garcon_to_bar == False and i.garconconfirmed == False %}
+                                <div class="card-body bg-dark p-2 text-white">        
+                                    <div class="row">
+                                        <div class="col-lg-6 align-self-center">
+                                            <div class="text-medium">mesa:<strong> {{ i.table.table_number.table_number }}</strong></div>
+                                            <div class="text-small"><strong>{{ i.item }}</strong></div>
+                                            <div class="text-smallest"><strong>{{ i.item_user.first_name }} às {{i.created_at|time:"G:i"}}</strong></div>
+                                            <div class="text-small">{% if i.order_obs %}<span class="badge badge-info"><strong>{{ i.order_obs }}</span></strong>{% endif %}</div>
+                                            <div class="text-smallest"><span class="badge badge-danger">Espera: {{i.whenpublished}}</span></div>
+                                        </div>
+                                        <div class="col-lg-6 align-self-center">
+                                            <a href="/table/{{ i.table.restaurante.restaurante_ref }}/{{ i.table.table_check_number }}/{{ i.pk }}/to-bar" role="button" class="btn btn-md btn-block btn-info text-white font-weight-bold mt-1">Enviar p/ bar?</a>
+                                            <a href="/table/{{ i.table.restaurante.restaurante_ref }}/{{ i.table.table_check_number }}/{{ i.pk }}/cancel" role="button" class="btn btn-sm btn-primary text-white mt-1">Cancelar</a> 
+                                        </div>
+                                    </div>
+                                </div>
+                                {% elif i.item.bar == True and i.bar_to_garcon == True and i.garcon_to_bar == True and i.garconconfirmed == False %}
+                                <div class="card-body bg-dark p-2 text-white"> 
+                                    <div class="row">
+                                        <div class="col-lg-6 align-self-center">
+                                            <div class="text-medium"><span class="badge badge-warning">PRONTO NO BAR</span></div>
+                                            <div class="text-medium">mesa: <strong>{{ i.table.table_number.table_number }}</strong></div>
+                                            <div class="text-small"><strong>{{ i.item }}</strong></div>
+                                            <div class="text-smallest"><strong>{{ i.item_user.first_name }} às {{i.created_at|time:"G:i"}}</strong></div>
+                                            <div class="text-small">{% if i.order_obs %}<span class="badge badge-info"><strong>{{ i.order_obs }}</span></strong>{% endif %}</div>
+                                            <div class="text-small"><span class="badge badge-danger">Espera: {{i.whenpublished}}</span></div>
+                                        </div>
+                                        <div class="col-lg-6 align-self-center">
+                                            <a href="/table/{{ i.table.restaurante.restaurante_ref }}/{{ i.table.table_check_number }}/{{ i.pk }}" role="button" class="btn btn-md btn-block btn-primary text-white font-weight-bold mt-1">Confirmar na mesa?</a>                     
+                                            <a href="/table/{{ i.table.restaurante.restaurante_ref }}/{{ i.table.table_check_number }}/{{ i.pk }}/cancel" role="button" class="btn btn-sm btn-primary text-white mt-1">Cancelar</a>                        
+                                        </div>
+                                    </div>
+                                </div>
+                                {% elif i.item.cozinha == False and i.item.bar == False and i.garconconfirmed == False %}
+                                <div class="card-body bg-dark p-2 text-white">        
+                                    <div class="row">
+                                        <div class="col-lg-6 align-self-center">
+                                            <div class="text-medium">mesa:<strong> {{ i.table.table_number.table_number }}</strong></div>
+                                            <div class="text-small"><strong>{{ i.item }}</strong></div>
+                                            <div class="text-smallest"><strong>{{ i.item_user.first_name }} às {{i.created_at|time:"G:i"}}</strong></div>
+                                            <div class="text-small">{% if i.order_obs %}<span class="badge badge-info"><strong>{{ i.order_obs }}</span></strong>{% endif %}</div>
+                                            <div class="text-small"><span class="badge badge-danger">Espera: {{i.whenpublished}}</span></div>
+                                        </div>
+                                        <div class="col-lg-6 align-self-center">
+                                            <a href="/table/{{ i.table.restaurante.restaurante_ref }}/{{ i.table.table_check_number }}/{{ i.pk }}" role="button" class="btn btn-md btn-block btn-primary text-white font-weight-bold mt-1">Confirmar na mesa?</a>
+                                            <a href="/table/{{ i.table.restaurante.restaurante_ref }}/{{ i.table.table_check_number }}/{{ i.pk }}/cancel" role="button" class="btn btn-sm btn-primary text-white mt-1">Cancelar</a>                        
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card shadow mb-2 mt-1">
+                                <div class="card-header text-white bg-gradient-dark py-2 text-small text-center font-weight-bold">
+                                    Mesas sendo atendidas por {{get_atendente.atendente.first_name}}
+                                </div>
+                                <div class="card-body bg-dark p-1 align-items-center">   
+                                    {% for i in tables_atendente %}
+                                    <a href="/table/{{ get_atendente.restaurante.restaurante_ref }}/{{ i.table_check_number }}/{{ get_atendente.code }}/garcom" role="button" class="btn btn-md btn-primary text-white mb-1"><div class="text-medium">{{ i.table_number.table_number }}</div><div class="text-smallest">{{i.atendentes.atendente.first_name}}</div></a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card shadow mb-2 mt-1">
+                                <div class="card-header text-white bg-gradient-dark py-2 text-center font-weight-bold">
+                                    Pedidos na cozinha
+                                </div>
+                                {% for i in itens_confirmados %}
+                                {% if i.item.cozinha == True and i.cozinha_to_garcon == False and i.garcon_to_cozinha == True and i.garconconfirmed == False %}    
+                                <div class="card-body bg-dark p-2 text-white text-left">   
+                                    <div class="text-medium">mesa:<strong> {{ i.table.table_number.table_number }}</strong></div>
+                                    <div class="text-small"><strong>{{ i.item }}</strong></h6></div>
+                                    <div class="text-smallest"><strong>{{ i.item_user.first_name }} às {{i.created_at|time:"G:i"}}</strong></div>
+                                    <div class="text-small">{% if i.order_obs %}<span class="badge badge-info"><strong>{{ i.order_obs }}</span></strong>{% endif %}</div>
+                                    <div class="text-small"><span class="badge badge-danger">Espera: {{i.whenpublished}}</span></div>
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card shadow mb-2 mt-1">
+                                <div class="card-header text-white bg-gradient-dark py-2 text-center font-weight-bold">
+                                    Pedidos no Bar
+                                </div>
+                                    {% for i in itens_confirmados %}
+                                    {% if i.item.bar == True and i.bar_to_garcon == False and i.garcon_to_bar == True and i.garconconfirmed == False %}
+
+                                <div class="card-body bg-dark p-2 text-white text-left">   
+                                    <div class="text-medium">mesa:<strong> {{ i.table.table_number.table_number }}</strong></div>
+                                    <div class="text-small"><strong>{{ i.item }}</strong></div>
+                                    <div class="text-smallest"><strong>{{ i.item_user.first_name }} às {{i.created_at|time:"G:i"}}</strong></div>
+                                    <div class="text-small">{% if i.order_obs %}<span class="badge badge-info"><strong>{{ i.order_obs }}</span></strong>{% endif %}</div>
+                                    <div class="text-small"><span class="badge badge-danger">Espera: {{i.whenpublished}}</span></div>      
+                                </div>
+                                    {% endif %}
+
+                                    {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card shadow mb-2 mt-1">
+                                <div class="card-header text-white bg-gradient-dark py-2 text-center font-weight-bold">
+                                    Mesas disponíveis
+                                </div>
+                                <div class="card-body bg-dark p-2 align-items-center">   
+                                {% for i in tables_available %}
+                                    <a href="/table/{{ i.restaurante.restaurante_ref }}/{{ get_atendente.code }}/preopen/{{ i.table_ref }}" role="button" class="btn btn-lg btn-warning text-dark mb-1"><div class="text-weight-bold">{{ i.table_number }}</div><div class="text-smallest">{{i.atendente.first_name}}</div></a>
+                                {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 mb-5">
+                            <h6 class="text-center text-white font-weight-bold">ÚLTIMOS ITENS ENTREGUES</h6>
+                            {% for i in last_items_garconconfirmed %}
+                            <div class="card-body bg-secondary p-2 text-white" style="border-radius=20%;">        
+                                <div class="row">
+                                    <div class="col-lg-12 align-self-center">
+                                        <div class="text-medium">mesa:<strong> {{ i.table.table_number.table_number }}</strong></div>
+                                        <div class="text-small"><strong>{{ i.item }}</strong></div>
+                                        <div class="text-smallest"><strong>{{ i.item_user.first_name }} às {{i.created_at|time:"G:i"}} - entregue às {{i.updated_at|time:"G:i"}}</strong></div>
+                                        <div class="text-small">{% if i.order_obs %}<span class="badge badge-info"><strong>{{ i.order_obs }}</span></strong>{% endif %}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <hr>
+                            <h6 class="text-center text-white font-weight-bold">ITENS CANCELADOS</h6>
+                            {% for i in itens_cancelados %}
+                            <div class="card-body bg-secondary p-2 text-white">        
+                                <div class="row">
+                                    <div class="col-lg-12 align-self-center">
+                                        <div class="text-medium">mesa:<strong> {{ i.table.table_number.table_number }}</strong></div>
+                                        <div class="text-small"><strong>{{ i.item }}</strong></div>
+                                        <div class="text-smallest"><strong>{{ i.item_user.first_name }} às {{i.created_at|time:"G:i"}} - cancelado às {{i.updated_at|time:"G:i"}}</strong></div>
+                                        <div class="text-small">{% if i.order_obs %}<span class="badge badge-info"><strong>{{ i.order_obs }}</span></strong>{% endif %}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                           <br><br><br><br><br><br><br>
+                        </div>
+                    </div>
+                </div> 
+                {% if tables_atendente and get_atendente.restaurante.instrucoes_5 == False %}
+                <div id="myModal" class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header bg-danger text-white">
+                                <h4 class="text-center  pt-3 text-white">Continue a gestão...</h4>
+                                <div class="text-right"><i class="far fa-times-circle fa-3x" data-dismiss="modal" aria-label="Close"></i></div>                        
+                            </div>
+                            <div class="modal-body">
+                                <ul class="text-left">
+                                    <li>As mesas já abertas são mostradas nos botões azuis. Para incluir novos pedidos, basta entrar na mesa, incluir e voltar em "Gestão".</li>
+                                    <li>Envie pedidos para cozinha, para o bar ou confirme na mesa.</li>
+                                    <li>Todos os pedidos da mesa feitos pelo atendente, por outro atendente ou pelo cliente, aparecerão aqui.</li>
+                                    <li>O atendente responsável pela mesa é quem administra todos os pedidos e dá a confirmação final ("confirma na mesa")</li>
+                                    <li>Clique no ícone <i class="fas fa-bars fa-lg"></i> na parte superior e selecione INÍCIO para acessar demais gestões (cozinha, bar, caixa...)</li>
+                                </ul>                                
+                                <div class="modal-footer">
+                                    <br>
+                                    <a class="btn btn-primary btn-block btn-lg font-weight-bold" href="/local/{{ get_atendente.restaurante.restaurante_ref}}/block-instrucao-5" role="button">Não mostrar mais essa mensagem</a>
+                                    <br>
+                                    <a href="https://wa.me/5551991571457" style="background-color:#25d366;color:#FFF;" onclick="trackevent();" target="_blank" role="button" class="btn btn-block btn-lg">Dúvidas? Fale com a gente</a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                
+                <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+       
+                
+<script type="text/javascript">
+$(window).on('load',function(){
+    setTimeout(function() {
+        $('#myModal').modal();
+    }, 1000);});
+</script>   
+                
+            </main>
+        </div>
+                
+{% comment %} {% endblock %} {% endcomment %}
+</body>
+</html>

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div id="layoutSidenav_content">
+
+<main>
+<form action="" method="POST" class="ui form" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit" class="ui button primary">Confirm</button>
+</form>
+</main>
+</div>
+
+{% endblock content %}
+

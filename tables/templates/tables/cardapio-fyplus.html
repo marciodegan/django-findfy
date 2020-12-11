@@ -1,0 +1,517 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html lang="pt-br" class="js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <title>{{ obj.restaurante.name }}</title>
+        <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}" />
+
+        {% comment %} <link href="{% static 'base/bundles/fontawesome.css' %}" rel="stylesheet"> {% endcomment %}
+        {% comment %} <link href="{% static 'base/bundles/simpleLine.css' %}" rel="stylesheet"> {% endcomment %}
+        <link href="{% static 'base/bundles/css-animate.css' %}" rel="stylesheet">
+        <link href="{% static 'base/bundles/css-animate.css' %}" rel="stylesheet">
+        {% comment %} <link href="{% static 'base/bundles/smartAppBannerCss.css' %}" rel="stylesheet"> {% endcomment %}
+
+        <link href="{% static 'base/Content/bootstrap.css' %}" rel="stylesheet" type="text/css" id="bscss">
+        
+        <link href="{% static 'base/Content/app.css' %}" rel="stylesheet" type="text/css" id="maincss">
+        <link href="{% static 'base/Content/app.custom.css' %}" rel="stylesheet" type="text/css">
+
+        <link href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto+Condensed:wght@300;700&display=swap" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" crossorigin="anonymous"></script>
+        <style>
+            #cardapio .cardapio-header .bg {
+                background-image: url("{{ obj.imagem_menu.url }}");
+            }
+        </style>
+    </head>
+    <body class="layout-h layout-fixed">
+        <div class="wrapper" id="main-wrapper">
+            <header class="topnavbar-wrapper">
+                <a href="" data-target="#my_modal4" data-toggle="modal" class="btn btn-lg btn-warning bg-gradient-info text-white" style="padding:4px;margin-left:5px;margin-top:10px;" role="button">
+                    <div>Instruções FYPlus</div>
+                </a>
+                <a href="" data-target="#my_modal5" class="btn btn-dark text-white" style="float:right;margin-top:10px;" data-toggle="modal" role="button">
+                    <i class="fas fa-bars fa-lg"></i>
+                </a>
+            </header>
+            <!-- Main section-->
+            <section id="main-section">  
+                <!-- Page content-->
+                <div class="content-wrapper">        
+                    <div id="cardapio" class="content">
+                        <section class="cardapio-header">
+                            <div class="bg"></div>
+                            <div class="gradient"></div>
+                            <div class="inner">
+                                <div class="head-logo">
+                                    <img src="{{ obj.logo.url }}" style="border-radius:50px;" alt="">   
+                                </div>
+                                <div class="head-name">
+                                    <h5>{{obj.name}}</h5>
+                                </div>
+                                <div class="head-address">
+                                    {% if obj.endereco == None %}
+                                    <h5></h5>
+                                    {% else %}
+                                    <h5>{{obj.endereco}}</h5>
+                                    {% endif %}
+                                </div>
+                                <div class="head-bairro">
+                                   {% if obj.bairro == None %}
+                                    <h5><h5>
+                                    {% else %}
+                                    <h5>{{obj.bairro}}</h5>
+                                    {% endif %}                                    
+                                </div>
+                                <div class="head-cidade">
+                                    {% if obj.cidade == None %}
+                                    <h5><h5>
+                                    {% else %}
+                                    <h5>{{obj.cidade}}</h5>
+                                    {% endif %} 
+                                </div>
+                                <div class="head-telefone">
+                                    {% if obj.telefone == None %}
+                                    <h5><h5>
+                                    {% else %}
+                                    <h5>{{obj.telefone}}</h5>
+                                    {% endif %} 
+                                </div>
+                                <div class="head-zap">
+                                    {% if obj.zap == None %}
+                                    <h5><h5>
+                                    {% else %}
+                                    <a href="https://wa.me/55{{obj.zap}}?text=Olá" style="background-color:#25d366;color:#FFF;border-radius:50px;" onclick="trackevent();" target="_blank">
+					                <h5>Fale com a gente</h5>
+				                    </a>
+                                    {% endif %}
+                                </div>                     
+                            </div>
+                        </section>
+                        <section id="secao-categories">                    
+                            <div class="container" style="position: relative;">
+                                <i id="btn-categories-left" class="fa fa-chevron-left text-primary hide"></i>
+                                <i id="btn-categories-right" class="fa fa-chevron-right text-primary"></i>
+                                <ul class="nav nav-pills nav-categorias">
+                                    <li class=""><a href="#{% for i in categ1 %}{{ i.categoria }}{% endfor %}"> {% for i in categ1 %}{{ i.categoria }}{% endfor %}</a></li>
+                                    <li class=""><a href="#{% for i in categ2 %}{{ i.categoria }}{% endfor %}"> {% for i in categ2 %}{{ i.categoria }}{% endfor %}</a></li>
+                                    <li class=""><a href="#{% for i in categ3 %}{{ i.categoria }}{% endfor %}"> {% for i in categ3 %}{{ i.categoria }}{% endfor %}</a></li>
+                                    <li class=""><a href="#{% for i in categ4 %}{{ i.categoria }}{% endfor %}"> {% for i in categ4 %}{{ i.categoria }}{% endfor %}</a></li>
+                                    <li class=""><a href="#{% for i in categ5 %}{{ i.categoria }}{% endfor %}"> {% for i in categ5 %}{{ i.categoria }}{% endfor %}</a></li>
+                                    <li><a href="#{% for i in categ6 %}{{ i.categoria }}{% endfor %}"> {% for i in categ6 %}{{ i.categoria }}{% endfor %}</a></li>
+                                    <li><a href="#{% for i in categ7 %}{{ i.categoria }}{% endfor %}"> {% for i in categ7 %}{{ i.categoria }}{% endfor %}</a></li>
+                                    <li><a href="#{% for i in categ8 %}{{ i.categoria }}{% endfor %}"> {% for i in categ8 %}{{ i.categoria }}{% endfor %}</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                        <section class="cardapio-body">
+                            <div class="container">
+                                {% if itenscat1 %}
+                                <div class="categories">
+                                    <div class="panel panel-danger" id="{% for i in categ1 %}{{ i.categoria }}{% endfor %}">
+                                        <div class="panel-heading" role="tab" id="{% for i in categ1 %}{{ i.categoria }}{% endfor %}-heading">
+                                            <h4 class="panel-title">
+                                                <a role="button" data-toggle="collapse" href="#1-collapse" aria-expanded="true" aria-controls="1-collapse" name="1-collapse">
+                                                    {% for i in categ1 %}{{ i.categoria }}{% endfor %}
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="1-collapse" class="panel-collapse collapse in" true="" role="tabpanel" aria-labelledby="bebidas-heading" data-loaded="false"><div class="panel-body products">
+                                            {% if itenscat1 %}
+                                            {% for i in itenscat1 %}
+                                            <div class="product-container">                             
+                                                {% comment %} <a class="product-item"  data-imagem="{{ i.name_image.url }}" href="#my_modal" data-toggle="modal" data-book-id="{{ i.id }}" data-restaurante=" {{obj.restaurante.restaurante_ref}}" data-price="{{i.price}}" data-mesa="{{obj.table_check_number}}" data-product="{{ i.item }}">             {% endcomment %}
+                                                    <div class="media">
+                                                        <div class="media-body">
+                                                            <div class="name">{{i.item}}</div>
+                                                            <div class="product-description">{{i.descricao}}</div>
+                                                            <div class="price">R$ {{i.price|stringformat:".2f"}}</div>
+                                                        </div>
+                                                        {% if i.name_image %}
+                                                        <div class="media-right">
+                                                            <img src="{{ i.name_image.url }}" class="imagem img-rounded" style="background: #ddd">
+                                                        </div>
+                                                        {% else %}
+                                                        {% endif %}
+                                                    </div>
+                                                {% comment %} </a> {% endcomment %}
+                                            </div>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                {% if itenscat2 %}
+                                <div class="categories">
+                                    <div class="panel panel-danger" id="{% for i in categ2 %}{{ i.categoria }}{% endfor %}">
+                                        <div class="panel-heading" role="tab" id="{% for i in categ2 %}{{ i.categoria }}{% endfor %}-heading">
+                                            <h4 class="panel-title">
+                                                <a role="button" data-toggle="collapse" href="#2-collapse" aria-expanded="true" aria-controls="2-collapse" name="2-collapse">
+                                                    {% for i in categ2 %}{{ i.categoria }}{% endfor %}
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="2-collapse" class="panel-collapse collapse in" true="" role="tabpanel" aria-labelledby="{% for i in categ2 %}{{ i.categoria }}{% endfor %}-heading" data-loaded="false"><div class="panel-body products">
+                                            {% if itenscat2 %}
+                                            {% for i in itenscat2 %}
+                                            <div class="product-container">                             
+                                                {% comment %} <a class="product-item"  data-imagem="{{ i.name_image.url }}" href="my_modal" data-toggle="modal" data-book-id="{{ i.id}}" data-target="#my_modal" data-restaurante=" {{obj.restaurante.restaurante_ref}}" data-price="{{i.price}}" data-mesa="{{obj.table_check_number}}" data-product="{{ i.item }}">             {% endcomment %}
+                                                    <div class="media">
+                                                        <div class="media-body">
+                                                            <div class="name">{{i.item}}</div>
+                                                            <div class="product-description">{{i.descricao}}</div>
+                                                            <div class="price">R$ {{i.price|stringformat:".2f"}}</div>
+                                                        </div>
+                                                        {% if i.name_image %}
+                                                        <div class="media-right">
+                                                            <img src="{{ i.name_image.url }}" class="imagem img-rounded" style="background: #ddd">
+                                                        </div>
+                                                        {% else %}
+                                                        {% endif %}
+                                                    </div>
+                                                {% comment %} </a> {% endcomment %}
+                                            </div>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}                                
+                                {% if itenscat3 %}
+                                <div class="categories">
+                                    <div class="panel panel-danger" id="{% for i in categ3 %}{{ i.categoria }}{% endfor %}">
+                                        <div class="panel-heading" role="tab" id="{% for i in categ3 %}{{ i.categoria }}{% endfor %}-heading">
+                                            <h4 class="panel-title">
+                                                <a role="button" data-toggle="collapse" href="#3-collapse" aria-expanded="true" aria-controls="3-collapse" name="3-collapse">
+                                                    {% for i in categ3 %}{{ i.categoria }}{% endfor %}
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="3-collapse" class="panel-collapse collapse in" true="" role="tabpanel" aria-labelledby="{% for i in categ3 %}{{ i.categoria }}{% endfor %}-heading" data-loaded="false"><div class="panel-body products">
+                                            {% if itenscat3 %}
+                                            {% for i in itenscat3 %}
+                                            <div class="product-container">                             
+                                                {% comment %} <a class="product-item"  data-imagem="{{ i.name_image.url }}" href="my_modal" data-toggle="modal" data-book-id="{{ i.id}}" data-target="#my_modal" data-restaurante=" {{obj.restaurante.restaurante_ref}}" data-price="{{i.price}}" data-mesa="{{obj.table_check_number}}" data-product="{{ i.item }}">             {% endcomment %}
+                                                    <div class="media">
+                                                        <div class="media-body">
+                                                            <div class="name">{{i.item}}</div>
+                                                            <div class="product-description">{{i.descricao}}</div>
+                                                            <div class="price">R$ {{i.price|stringformat:".2f"}}</div>
+                                                        </div>
+                                                        {% if i.name_image %}
+                                                        <div class="media-right">
+                                                            <img src="{{ i.name_image.url }}" class="imagem img-rounded" style="background: #ddd">
+                                                        </div>
+                                                        {% else %}
+                                                        {% endif %}
+                                                    </div>
+                                                {% comment %} </a> {% endcomment %}
+                                            </div>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                {% if itenscat4 %}    
+                                <div class="categories">
+                                    <div class="panel panel-danger" id="{% for i in categ4 %}{{ i.categoria }}{% endfor %}">
+                                        <div class="panel-heading" role="tab" id="{% for i in categ4 %}{{ i.categoria }}{% endfor %}-heading">
+                                            <h4 class="panel-title">
+                                                <a role="button" data-toggle="collapse" href="#4-collapse" aria-expanded="true" aria-controls="4-collapse" name="4-collapse">
+                                                    {% for i in categ4 %}{{ i.categoria }}{% endfor %}
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="4-collapse" class="panel-collapse collapse in" true="" role="tabpanel" aria-labelledby="bebidas-heading" data-loaded="false"><div class="panel-body products">
+                                            {% if itenscat4 %}
+                                            {% for i in itenscat4 %}
+                                            <div class="product-container">                             
+                                                {% comment %} <a class="product-item"  data-imagem="{{ i.name_image.url }}" href="my_modal" data-toggle="modal" data-book-id="{{ i.id}}" data-target="#my_modal" data-restaurante=" {{obj.restaurante.restaurante_ref}}" data-price="{{i.price}}" data-mesa="{{obj.table_check_number}}" data-product="{{ i.item }}">             {% endcomment %}
+                                                    <div class="media">
+                                                        <div class="media-body">
+                                                            <div class="name">{{i.item}}</div>
+                                                            <div class="product-description">{{i.descricao}}</div>
+                                                            <div class="price">R$ {{i.price|stringformat:".2f"}}</div>
+                                                        </div>
+                                                        {% if i.name_image %}
+                                                        <div class="media-right">
+                                                            <img src="{{ i.name_image.url }}" class="imagem img-rounded" style="background: #ddd">
+                                                        </div>
+                                                        {% else %}
+                                                        {% endif %}
+                                                    </div>
+                                                {% comment %} </a> {% endcomment %}
+                                            </div>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}                                
+                                {% if itenscat5 %}
+                                <div class="categories">
+                                    <div class="panel panel-danger" id="{% for i in categ5 %}{{ i.categoria }}{% endfor %}">
+                                        <div class="panel-heading" role="tab" id="{% for i in categ5 %}{{ i.categoria }}{% endfor %}-heading">
+                                            <h4 class="panel-title">
+                                                <a role="button" data-toggle="collapse" href="#5-collapse" aria-expanded="true" aria-controls="5-collapse" name="5-collapse">
+                                                    {% for i in categ5 %}{{ i.categoria }}{% endfor %}
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="5-collapse" class="panel-collapse collapse in" true="" role="tabpanel" aria-labelledby="{% for i in categ5 %}{{ i.categoria }}{% endfor %}-heading" data-loaded="false"><div class="panel-body products">
+                                            {% if itenscat5 %}
+                                            {% for i in itenscat5 %}
+                                            <div class="product-container">                             
+                                                {% comment %} <a class="product-item"  data-imagem="{{ i.name_image.url }}" href="my_modal" data-toggle="modal" data-book-id="{{ i.id}}" data-target="#my_modal" data-restaurante=" {{obj.restaurante.restaurante_ref}}" data-price="{{i.price}}" data-mesa="{{obj.table_check_number}}" data-product="{{ i.item }}">             {% endcomment %}
+                                                    <div class="media">
+                                                        <div class="media-body">
+                                                            <div class="name">{{i.item}}</div>
+                                                            <div class="product-description">{{i.descricao}}</div>
+                                                            <div class="price">R$ {{i.price|stringformat:".2f"}}</div>
+                                                        </div>
+                                                        {% if i.name_image %}
+                                                        <div class="media-right">
+                                                            <img src="{{ i.name_image.url }}" class="imagem img-rounded" style="background: #ddd">
+                                                        </div>
+                                                        {% else %}
+                                                        {% endif %}
+                                                    </div>
+                                                {% comment %} </a> {% endcomment %}
+                                            </div>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="modal fade" id="my_modal4" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger">
+                        <br>
+                        <h4 class="text-center  pt-3 text-white">Passo 4 de 5</h4>
+                        <h3 class="modal-title text-center text-white">Menu FyPlus.</h3>       
+                        <div class="text-right"><i class="far fa-times-circle fa-3x" data-dismiss="modal" aria-label="Close"></i></div>
+                    </div>
+                    <div class="modal-body" style="overflow-x: auto;">
+                        <h4 class="text-center">As informações (produtos e fotos) são as mesmas em todos os menus.</h4>
+                        <h4 class="text-center">Porém, <strong>na versão FyPlus</strong>, você pode optar entre atendentes e/ou clientes incluírem pedidos diretamente no menu.</h4>
+                        <h4 class="text-center">Os pedidos serão mostrados nas telas de Gestão Atendente e demais Gestões (master, cozinha, bar, etc.)</h4> 
+                        <br>
+                        <h4 class="text-center">Para sua avaliação e compreensão sobre a gestão de pedidos, clique no ícone  <i class="fas fa-bars fa-lg"> </i>  no canto superior direito e clique em "GESTÃO ATENDENTE".</h4>
+                        
+                        {% comment %} <h4 class="text-center">Nossos Planos</h4> 
+                
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class=".col-md-6 .ml-auto">
+                                    <div class="table-responsive-sm">
+                                        <table class="table table-sm">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th></th>
+                                                    <th class="text-center"><strong>FyBasic</strong></th>
+                                                    <th class="text-center"><strong>FyPlus</strong></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Menu</td>
+                                                    <td class="text-center"><i class="fas fa-check-circle text-success"></i></td>
+                                                    <td class="text-center"><i class="fas fa-check-circle text-success"></i></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Edição Menu</td>
+                                                    <td class="text-center"><i class="fas fa-check-circle text-success"></i></td>
+                                                    <td class="text-center"><i class="fas fa-check-circle text-success"></i></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Limite de Produtos</td>
+                                                    <td class="text-center">50</td>
+                                                    <td class="text-center">100</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Cliente pode pedir</td>                                    
+                                                    <td class="text-center"></td>
+                                                    <td class="text-center"><i class="fas fa-check-circle text-success"></i></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Quem está no local</td>
+                                                    <td class="text-center"></td>
+                                                    <td class="text-center"><i class="fas fa-check-circle text-success"></i></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Módulo Atendente</td>
+                                                    <td class="text-center"></td>
+                                                    <td class="text-center"><i class="fas fa-check-circle text-success"></i></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Módulo Master</td>
+                                                    <td class="text-center"></td>
+                                                    <td class="text-center"><i class="fas fa-check-circle text-success"></i></td>
+                                                </tr>
+                                                    <tr>
+                                                    <td>Módulo Cozinha</td>
+                                                    <td class="text-center"></td>
+                                                    <td class="text-center"><i class="fas fa-check-circle text-success"></i></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Módulo Caixa</td>
+                                                    <td class="text-center"></td>
+                                                    <td class="text-center"><i class="fas fa-check-circle text-success"></i></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Página no FindFy</td>
+                                                    <td class="text-center"><i class="fas fa-check-circle text-success"></td>
+                                                    <td class="text-center"><i class="fas fa-check-circle text-success"></i></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Divulgação no FindFy</td>
+                                                    <td class="text-center"><i class="fas fa-check-circle text-success"></td>
+                                                    <td class="text-center"><i class="fas fa-check-circle text-success"></i></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Período Teste/Sem custo</td>
+                                                    <td class="text-center">60 dias</td>
+                                                    <td class="text-center">60 dias</i></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Mensalidade (após teste)</td>
+                                                    <td>R$ 9,90</td>
+                                                    <td>R$ 59,90</i></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> {% endcomment %}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary btn-lg btn-block" data-dismiss="modal"><strong>OK, ENTENDI!</strong></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="my_modal5" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger">
+                        <h4 class="modal-title text-center text-white"><strong>{{obj.name}}</strong></h4>
+                        <div class="text-right"><i class="far fa-times-circle fa-3x" data-dismiss="modal" aria-label="Close"></i></div>
+                    </div>
+                    <div class="modal-body" style="overflow-x: auto;">
+                        <a href="#collapseCard5" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCard5" class="btn btn-lg btn-block btn-primary text-white text-small font-weight-bold"><strong>QUEM ESTÁ NA MESA</strong></a>                          
+                        <div class="collapse" id="collapseCard5">
+                            <div class="card-body">  
+                                <h4 class="text-center">Nesta seção são mostradas as pessoas que estão logadas na mesa.</h4>
+                                <h4 class="text-center">Todas as pessoas que lerem o código QRCode gerado na abertura da mesa pelo atendente, estarão logadas na mesa e poderão fazer pedidos diretamente de seus smartphones.</h4>
+                                <h4 class="text-center">Cada participante da mesa poderá acompanhar o seu próprio consumo.</h4>
+                                <br>
+                                <h4 class="text-center">Quando seus clientes se logam na mesa, você saberá quem veio ao seu estabelecimento, o que consumiu, quanto tempo ficou, entre outras informações. Poderá também fazer promoções direcionadas.</h4>
+                            </div>
+                        </div>
+                        <br>
+                        <a href="#collapseCard2" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCard2" class="btn btn-lg btn-block btn-primary text-white text-small"><strong>QUEM ESTÁ NO LOCAL</strong></a>
+                        <div class="collapse" id="collapseCard2">
+                            <div class="card-body">  
+                                <h4 class="text-center">Nesta seção são mostradas as pessoas que estão, no momento, no seu estabelecimento.</h4>
+                                <h4 class="text-center">Todas as pessoas que se logarem em alguma mesa, poderão optar por participar do "Quem está local" e interagir entre si.</h4>
+                                <h4 class="text-center">Você poderá escolher se o seu estabelecimento deve participar do "Quem está no local".</h4>
+                                <h4 class="text-center">Para desativar esta opção, vá até o "Perfil do Local."</h4>
+                                <hr>
+                                <h4 class="text-center">Falta pouco!</h4>
+                                <h4 class="text-center">Acesse "Gestão Atendente" para compreender o processo de pedidos.</h4> 
+                                <h4 class="text-center">Clique em uma mesa disponível e leia o código QRCode gerado, com outro smartphone.</h4> 
+                            </div>
+                        </div>
+                        <br>
+                        <a href="/table/{{ obj.restaurante_ref }}/acgesate/{{get_atendente.code}}/instrucoes" role="button" class="btn btn-primary bg-primary btn-lg btn-block"><strong>GESTÃO ATENDENTE</strong></a>
+                        {% comment %}                 
+                        {% if obj.user == request.user %} 
+                        <a href="/local/{{obj.restaurante_ref}}" role="button" class="btn btn-primary bg-primary btn-lg btn-block"><strong>PAINEL ADM</strong></a>
+                        {% endif %}
+                        <br>
+                        <a href="https://wa.me/5551991571457" style="background-color:#25d366;color:#FFF;border-radius:50px;" onclick="trackevent();" target="_blank"><button type="button" class="btn btn-lg btn-block btn-primary"><strong>FALE COM A GENTE</strong></button></a>
+                        {% endcomment %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCRIPTS -->
+
+        <script src="{% static 'base/bundles/jquery.js' %}"></script>
+        <script src="{% static 'base/bundles/jquery2.js' %}"></script>
+        <script src="{% static 'base/bundles/jquery3.js' %}"></script>
+        <script src="{% static 'base/bundles/jquery4.js' %}"></script>
+        <script src="{% static 'base/bundles/jquery5.js' %}"></script>
+        <script src="{% static 'base/bundles/bootstrap.js' %}"></script>
+        {% comment %} <script src="{% static 'base/bundles/storage.js' %}"></script> {% endcomment %}
+        <script src="{% static 'base/bundles/animo.js' %}"></script>
+        
+        <!-- =============== APP SCRIPTS ===============-->
+        <script src="{% static 'base/bundles/angle.js' %}"></script>
+
+        <!-- =============== PAGE VENDOR SCRIPTS ===============-->
+
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+        {% comment %} <script src="{% static 'base/js/scripts.js' %}"></script> {% endcomment %}
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+ 
+        <script>
+            $('#my_modal').on('show.bs.modal', function(e) {
+
+                var bookId = $(e.relatedTarget).data('book-id');
+                var restaurante = $(e.relatedTarget).data('restaurante');
+                var mesa = $(e.relatedTarget).data('mesa');
+                var price = $(e.relatedTarget).data('price');
+                var product = $(e.relatedTarget).data('product');
+
+                $(e.currentTarget).find('input[name="bookId"]').val(bookId);
+                $(e.currentTarget).find('input[name="restaurante"]').val(restaurante);
+                $(e.currentTarget).find('input[name="mesa"]').val(mesa);
+                $(e.currentTarget).find('input[name="price"]').val(price);
+                $(e.currentTarget).find('input[name="product"]').val(product);
+
+            });
+
+            $(document).on('submit', '#post-form',function(e){
+                e.preventDefault();
+                $.ajax({
+                    type:'POST',
+                    url:'{% url "pre-adicionar-item-mesa-confirmado" %}',
+                    data:{
+                        
+                        bookId:$('#bookId').val(),
+                        restaurante:$('#restaurante').val(),
+                        mesa:$('#mesa').val(),
+                        price:$('#price').val(),
+                        product:$('#product').val(),
+                        obs:$('#obs').val(),
+                        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                        action: 'post'
+
+                    },
+                    success:function(json)
+                    {
+                        $('#my_modal').trigger('click');
+                        }
+                });  
+            });
+        </script>
+    </body>
+</html>

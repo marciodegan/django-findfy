@@ -1,0 +1,40 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html>
+<body>
+
+<h3>Restaurante Beira Mar: </h3>
+
+<h4>MESA: {{obj.table_number}}</h4>
+                                    {% if table_items %}
+<table>
+                                        <thead>
+                                            <tr>
+                                                <td>Produto</td>
+                                                <td>Quant.</td>
+                                                <td>$</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for i in table_items %}
+                                            <tr>
+                                                <td>{{i.item}}</td>
+                                                <td>1</td>                                    
+                                                <td>{{i.item.price|stringformat:".2f"}}</td>
+                                               
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    TOTAL: $ {{ table_final_total|stringformat:".2f"}}
+                                    </table>
+                                        
+
+                                    {% endif %}
+
+
+</body>
+</html>
+
+        

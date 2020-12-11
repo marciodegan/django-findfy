@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Mesas{% endblock %}
+{% block content %}
+        <main>
+            <div class="container-fluid bg-gradient-dark mb-5">
+                <div class= "row">
+                    <div class="col-lg-6 mb-2 pt-3">
+                      <a href="" class="btn btn-dark btn-lg bg-gradient-primary btn-block" role="button"><strong>Atualizar</strong></a>
+                    </div>
+                </div>
+                <div class= "row">
+                    <div class="col-lg-6 mb-2">
+                      <a href="/table/{{obj.restaurante.restaurante_ref}}/tables/caixa" class="btn btn-lg btn-dark bg-gradient-danger btn-block" role="button"><strong>Voltar</strong></a>
+                    </div>  
+                </div>
+                <div class= "row">
+                    <div class="col-lg-6">
+                        <div class="card shadow mb-2">
+                            <div class="card-header bg-primary p-2 text-center text-white font-weight-bold">
+                                MESA: {{obj.table_number.table_number}}
+                            </div>
+                                <div class="card-body">  
+                                    <div class="table-responsive">
+                                        {% if table_items %}
+                                        <table class="table table-sm table-hover text-small text-center">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th scope="col">Produto</td>
+                                                    <th scope="col">Quant.</td>
+                                                    <th scope="col">$</td>
+                                                    <th scope="col">Quem</td>
+                                                    <th scope="col">Quando</td>
+                                                    <th scope="col">Na mesa</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for i in table_items %}
+                                                <tr>
+                                                    <td>{{i.item}}</td>
+                                                    <td>1</td>                                    
+                                                    <td>{{i.item.price|stringformat:".2f"}}</td>
+                                                    <td>{{i.item_user.first_name}}</td>
+                                                    <td>{{i.created_at|time:"G:i"}}</td>
+                                                    <td>{% if i.garconconfirmed is True %}<i class="fas fa-check"></i>{% endif %}</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                        <hr>
+                                        <div class="text-center font-weight-bold"><h4>TOTAL CONTA: <strong>$ {{ table_final_total|stringformat:".2f"}}</strong></h4></div>
+                                        <h6 class="text-small">*O total relacionado pelo atendente {{ table.atendente.first_name }} deve ser distribuído entre os clientes.</h6>
+                                        {% else %}
+                                        <h6 class="text-center">Não há registros neste momento</h6>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                    
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card shadow mb-2">
+                            <div class="card-body">
+                                {% if table_items %}
+                                <a href="caixacontalancamento" class="btn bg-gradient-primary btn-lg btn-block btn-bold text-white" role="button">LANÇAR VALORES</a>
+                                {% else %}
+                                <a href="fechar-mesa-zerada" class="btn bg-gradient-primary btn-lg btn-block btn-bold text-white" role="button">FECHAR CONTA SEM GASTOS</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br><br><br><br>
+            </div>
+        </main>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="{% static 'base/js/scripts.js' %}"></script>
+
+{% endblock %}                 

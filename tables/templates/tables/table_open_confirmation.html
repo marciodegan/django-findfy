@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+          <div id="layoutSidenav_content">
+            <main>
+              <div class="container-fluid bg-light">
+               
+                <div class= "row">
+                  <div class="col-lg-6">
+                   {% comment %} <a href="{% url 'view-tables' rest=obj.restaurante.restaurante_ref %} " role="button" class="btn btn-lg btn-primary text-center text-white">VER TODAS MESAS</a> {% endcomment %}
+                    <div class="card shadow mb-2 bg-light">
+                      <div class="card-header bg-danger text-white text-center">
+                        <h1>MESA ABERTA: {{ obj.table_number.table_number}}</h1>
+                      </div>
+  
+                      <div class="card-body text-center">                               
+                      <a href="/table/{{obj.restaurante.restaurante_ref}}/{{ obj.table_check_number }}/{{ obj.atendentes.code }}/garcom" role="button" class="btn btn-lg btn-block btn-primary text-white"><div>Entrar Menu da Mesa</div></a>
+
+                        <img width="250" height="250" src={{obj.qr_code.url}}>
+                        <hr>
+                        <h5>Compartilhe esse código APENAS com os usuários da mesa {{ obj.table_number.table_number}}</h5>       
+                      </div>                         
+                    </div>
+                    <br>
+                    <br><br><br>
+                  
+                  </div>
+                </div>
+                {% if obj.restaurante.instrucoes_4 == False %}
+                <div id="modalInstructions1" class="modal fade">
+                  <div class="modal-dialog">
+                      <div class="modal-content">
+                          <div class="modal-header bg-danger text-white">  
+                              <h5 class="text-center font-weight-bold pt-3">Você abriu uma mesa</h5>
+                              <div class="text-right"><i class="far fa-times-circle fa-2x" data-dismiss="modal" aria-label="Close"></i></div>
+                          </div>
+                          <div class="modal-body">
+                            <ol class="text-left">
+                                <li>Para simular como cliente, leia este QRCode com outro smartphone.</li>
+                                <li>Para continuar a simulação como atendente, feche esta janela e clique em "ENTRAR NO MENU MESA" e inclua pedidos clicando nos produtos.</li>
+                                <li>Depois clique em GESTÃO no parte superior do menu e prossiga com os pedidos.</li>
+                                <li>Não é obrigatório que os clientes leiam o código e se loguem a mesa. A colocação de pedidos pode ser feita somente pelos garçons/atendentes.</li>
+                            </ol>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-block btn-lg btn-primary" data-dismiss="modal"><strong>FECHAR</strong></button>
+                            <a class="btn btn-primary btn-block btn-lg font-weight-bold" href="{% url 'block-instrucao4' rest=obj.restaurante.restaurante_ref mesa=obj.table_check_number %}" role="button">Não mostrar mais essa mensagem</a>
+
+                            {% comment %} <a class="btn btn-primary btn-block btn-lg font-weight-bold" href="{{ obj.table_code }}" role="button">Não mostrar mais essa mensagem</a> {% endcomment %}
+                          </div>
+                      </div>
+                  </div>
+                </div>
+            {% endif %}
+              </main>
+          </div>
+    
+
+    
+{% endblock %}

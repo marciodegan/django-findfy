@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Mesas{% endblock %}
+{% block content %}
+
+            <main>
+              <div class="container text-white">
+                <br>
+                
+                <div class= "row">
+                    <div class="col-lg-6">
+                        <h5 class="font-weight-bold text-center">Olá {{ request.user.first_name }}</h5>
+                        <p class="font-weight-bold text-center">Bem-vindo ao FindFY!</p>
+                        <div class="card shadow mb-4 bg-light text-dark"  style="border-radius: 10px;" >      
+                            {% if tables %}
+                            <div class="card-body text-center">
+                                <h6><strong>Sua Mesa Ativa</strong></h6>
+                                {% for i in tables %}
+                                <a href="{{ i.table.restaurante.restaurante_ref }}/{{ i.table.table_check_number }}" role="button" class="btn btn-block btn-lg btn-success text-white"><div>{{ i.table.table_number.table_number }}</div><div class="text-small">{{i.table.restaurante.name}}</div></a>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            <div class="card-body text-center">
+                                <h6><strong>Você não está em nenhuma mesa no momento.</strong></h6>
+                                <br>
+                                <h6><strong>Pesquise lugares para ir hoje.</strong></h6>
+                                <a href="{{ i.table.restaurante.restaurante_ref }}/{{ i.table.table_check_number }}" role="button" class="btn btn-block btn-lg btn-primary text-white">Encontrar Local</a>
+                            </div>
+                            {% endif %}
+                        </div>      
+                    </div>
+                </div>                 
+            </main>
+        
+
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="{% static 'base/js/scripts.js' %}"></script>
+{% endblock %}
+

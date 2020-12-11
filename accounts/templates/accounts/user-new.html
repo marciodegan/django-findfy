@@ -1,0 +1,83 @@
+{% extends 'base/_base_index.html' %}
+{% load socialaccount %} 
+
+{% block title %}New User{% endblock %}
+
+{% block body_title %}New User{% endblock %}
+
+{% block body_content %}
+
+    <div class="container-fluid pt-3">
+
+    <br><br><br>            
+    <h3 class="text-white text-center font-weight-bold">FindFY</h3>
+        <div class= "row">
+            <div class="col-lg-6 style="float:none;margin:auto;">
+                <div class="card shadow mb-4 bg-light text-dark"  style="border-radius: 10px;">                   
+                    <div class="card-body">  
+        
+        <form method="post" class="form" action="{% url 'user-new' %}" autocomplete="off">
+        {% csrf_token %}
+
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="username">E-mail *</label>
+                        <input type="email" class="form-control" id="username" name="username" required autofocus>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="first_name">Primeiro Nome *</label>
+                        <input type="text" class="form-control" id="first_name" name="first_name" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="last_name">Sobrenome *</label>
+                        <input type="text" class="form-control" id="last_name" name="last_name" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="password1">Senha *</label>
+                        <input type="password" class="form-control" id="password1" name="password1" required>
+                        <small id="password-help" class="form-text">
+                        A senha não pode ser muito similar ao seu nome. É necessário ter, no mínimo 8 caracteres,
+                        não podendo ser somente números.
+                       </small>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="password2">Repetir senha *</span></label>
+                        <input type="password" class="form-control" id="password2" name="password2" required>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary shadow-lg mr-2 btn-lg btn-block btn-bold" name="btn_cadastro_canal">Criar Nova Conta</button><br>
+                <a class="btn btn-danger btn-lg btn-block font-weight-bold" role="button" href="{% provider_login_url 'google' %}"><i class="fab fa-google"></i>  Login Google</a>
+                <a class="btn btn-primary btncustom shadow-lg mr-2 btn-block btn-lg btn-bold" role="button" href="{% url 'index' %}">Cancelar</a>                
+                <div id="msgSubmit" class="h3 text-center hidden"></div>
+            </div>
+        </form>
+        </div>
+        </div>
+        </div>
+        
+<br><br><br>
+    </div>
+
+{% endblock %}

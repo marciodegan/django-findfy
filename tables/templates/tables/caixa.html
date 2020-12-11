@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Mesas{% endblock %}
+{% block content %}
+
+        <main>
+            <div class="container-fluid bg-gradient-dark">
+                <div class= "row text-white">
+                    <div class="col-lg-12 mt-3 mb-2">                       
+                        <h6><span class="badge badge-warning float-right">CAIXA: {{ request.user.first_name }}</span></h6>
+                    </div>
+                </div>
+                <div class= "row text-white">
+                    <div class="col-lg-9">                       
+                        <div class="card shadow bg-dark mb-2">
+                            <div class="card-header bg-danger font-weight-bold p-2">
+                               TODAS MESAS ABERTAS NESTE MOMENTO
+                            </div>
+                            <div class="card-body p-2">                  
+                                {% for i in tables_opened %}
+                                <a href="/table/{{ i.restaurante.restaurante_ref }}/{{ i.table_check_number }}/caixacontaview" role="button" class="btn btn-primary text-white"><div>{{ i.table_number.table_number }}</div><div class="text-small">{{i.atendente.first_name}}</div></a>
+                                {% endfor %} 
+                            </div>
+                        </div>
+                        <div class="card shadow bg-dark mb-2">
+                            <div class="card-header bg-gradient-danger font-weight-bold p-2">
+                                MESAS DISPONÍVEIS
+                            </div>
+                            <div class="card-body p-2">                  
+                                {% for i in tables_closed %}
+                                <a role="button" class="btn btn-warning text-dark"><div>{{ i.table_number }}</div><div class="text-small">{{i.atendente.first_name}}</div></a>
+                                {% endfor %} 
+                            </div>
+                        </div>  
+                        <div class="card shadow mb-2 text-white">
+                            <div class="card-header bg-gradient-dark">
+                                <h6 class="m-2 font-weight-bold">MESAS JÁ FECHADAS</h6>
+                            </div>
+                            <div class="card-body bg-dark">  
+                                <div class="table-responsive">
+                                
+                                    <table class="table table-sm table-hover text-small bg-white text-center" id="dataTable" width="100%" cellspacing="0">
+                                        <thead class="bg-dark text-white">
+                                            <tr>
+                                                <td>MESA</td>
+                                                <td>ENTRADA</td>
+                                                <td>SAIDA</td>
+                                                <td>TOTAL</td>
+                                                <td>ATENDENTE</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                {% for i in tables_pagas %}
+                                            <tr>
+                                                <td>{{ i.table__table_number__table_number }}</td>
+                                                <td>{{ i.table__created_at|time:"G:i"}}</td>                                    
+                                                <td>{{i.table__updated_at|time:"G:i"}}</td>
+                                                <td>$ {{ i.total|stringformat:".2f" }}</td>
+                                                <td>{{ i.table__atendente__first_name }}</td>
+                                                
+
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>        
+                    </div>
+                    <div class="col-lg-3">
+                        {% if tables_conta_cliente_confirmed %}
+                        <div class="card shadow bg-warning text-dark">
+                            <div class="card-header bg-gradient-warning">
+                                <h6><strong>Contas Solicitadas</strong></h6>
+                            </div>
+                                {% for i in tables_conta_cliente_confirmed %}
+
+                            <div class="card-body text-medium p-2">                  
+                                mesa:<strong> {{ i.table_number }}</strong>
+                            </div>
+                                {% endfor %}
+                        </div>
+                                {% endif %}
+
+
+                        <div class="card shadow bg-dark">
+                            <div class="card-header bg-gradient-danger text-white font-weight-bold p-2">
+                                SOLICITAÇÕES AGORA
+                            </div>
+                            {% for i in all_tables_items %}
+                            <div class="card-body text-medium p-2">                  
+                                <h6 class="text-small font-weight-bold">mesa: {{ i.table.table_number.table_number }}
+                                <h6 class="text-small font-weight-bold">{{ i.item }}</h6>
+                                <h6 class="text-small">por: {{ i.item_user.first_name }} às {{i.created_at|time:"G:i"}}
+                            </div>
+                            {% endfor %}
+
+                        </div>
+                        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                    </div>    
+                </div>
+            </div>
+        </main>     
+
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="{% static 'base/js/scripts.js' %}"></script>
+       
+{% endblock %}
+

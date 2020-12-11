@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Mesas{% endblock %}
+{% block content %}
+
+    <div id="layoutSidenav_content">
+        <main>
+              <div class="container-fluid bg-light">
+                <br>
+                <div class= "row">
+                    <div class="col-lg-6">                 
+                        <br>
+                        <br>
+                        <h4 class="text-center"><strong>Abrir mesa?</strong></h4>
+                        <h1 class="text-center">{{ get_mesa.table_number }}</strong>
+                        <br>
+                        <br>
+                        <a href="/table/{{ get_mesa.restaurante.restaurante_ref }}/{{ get_mesa.table_ref }}/table-opened" role="button" class="btn btn-lg btn-block btn-primary text-center text-white">CONFIRMAR</a>
+                        <br>
+                        <a href="/table/{{ get_mesa.restaurante.restaurante_ref }}/acgesate/{{get_mesa.atendentes.code}}" role="button" class="btn btn-lg btn-danger text-center btn-block text-white">CANCELAR</a>
+                        <br><br><br>
+                        
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="{% static 'base/js/scripts.js' %}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        <script src="assets/demo/chart-area-demo.js"></script>
+        <script src="assets/demo/chart-bar-demo.js"></script>
+        <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+        <script src="assets/demo/datatables-demo.js"></script>
+{% endblock %}
+

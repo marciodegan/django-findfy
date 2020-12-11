@@ -1,0 +1,47 @@
+{% extends 'base/_base_index.html' %}
+{% load socialaccount %} 
+
+{% block title %}Login{% endblock %}
+
+{% block body_title %}{% endblock %}
+
+{% block body_content %}
+
+    <div class="container">
+    <br>
+        <form class="form-signin" method="POST" autocomplete="off" id="form-login">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-lg-6">
+                <h3 class="text-center text-white pt-5 font-weight-bold">FindFY</h3>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="username" class="text-white font-weight-bold">Email</label>
+                        <input type="email" id="username" name="username" class="form-control" value="{{ request.POST.username }}" required autofocus>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col">
+                    <div class="form-group">
+                        <label for="password" class="text-white font-weight-bold">Senha</label>
+                        <input type="password" id="password" name="password" class="form-control" required>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <button class="btn btn-primary btn-lg btn-block font-weight-bold" type="submit">Entrar</button>
+                <a class="btn btn-primary btn-lg btn-block font-weight-bold" href="{% url 'password-reset' %}">Esqueceu Senha?</a>
+                <a class="btn btn-primary btn-lg btn-block font-weight-bold" role="button" href="{% url 'index' %}">Cancelar</a>
+                {% comment %} <a class="btn btn-primary btn-lg btn-block btn-bold" role="button" href="{% url social:begin' 'google-oauth2' %}">Google</a> {% endcomment %}
+                <a class="btn btn-danger btn-lg btn-block font-weight-bold" role="button" href="{% provider_login_url 'google' %}"><i class="fab fa-google"></i>  Login Google</a>
+                
+            </div>
+        </form>
+<br><br><br><br>
+    </div>
+
+{% endblock %}

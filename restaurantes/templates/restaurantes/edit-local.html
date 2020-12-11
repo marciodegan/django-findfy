@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Ao meu redor{% endblock %}
+{% block content %}
+
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid bg-light">
+           <div class= "row mb-1 pt-3">
+                        <div class="col-lg-6">
+                            <div class="card shadow mb-2 bg-light">
+
+                <div class="card-header bg-primary text-white font-weight-bold">
+                    EDIÇÃO DO ESTABELECIMENTO
+                </div>
+                    <div class="card-body">
+
+                        <h6 class="float-right text-small">*campo obrigatório</h6>
+                                  
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}    
+                            {{ form|crispy }}
+                            <input type="submit" class="btn btn-lg btn-primary btn-block font-weight-bold" value="EDITAR LOCAL">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>                       
+    </main>
+</div>
+               
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+        {% comment %} <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script> {% endcomment %}
+        <script src="{% static 'base/js/scripts.js' %}"></script>
+{% endblock %}
+
+
+
+
+{% comment %} <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}    
+                        <div id="div_id_name" class="form-group"> 
+                            <label for="id_name" class=" requiredField">Nome do estabelecimento</label> 
+                            <div class=""> 
+                                <input type="text" name="name" maxlength="255" class="textinput textInput form-control" placeholder="Ex.: Bar e Restaurante Beira-Rio" required id="id_name"> 
+                            </div> 
+                            <small id="id_name" class="form-text text-muted">Informe o nome do seu estabelecimento.</small>
+                        </div> 
+                        <div id="div_id_logo" class="form-group"> 
+                            <label for="id_logo" class="">Foto Logomarca</label> 
+                            <div class=""> 
+                                <input type="file" name="logo" accept="image/*" class="clearablefileinput form-control-file" id="id_logo"> 
+                            </div>
+                            <small id="id_logo" class="form-text text-muted">A sua logo aparecerá no menu e em outros locais. Pode ser adicionada posteriormente.</small>
+                        </div> 
+                        <div id="div_id_imagem_menu" class="form-group"> 
+                            <label for="id_imagem_menu" class="">Imagem menu</label>
+                            <div class="">
+                                <input type="file" name="imagem_menu" accept="image/*" class="clearablefileinput form-control-file" id="id_imagem_menu"> 
+                            </div>
+                            <small id="id_imagem_menu" class="form-text text-muted">Esta imagem aparecerá somente no "fundo" do menu. Pode ser adicionada posteriormente.</small>
+                        </div>
+                        <br>
+                        <h6>Adicione os demais campos agora ou posteriormente.</h6>
+                        <hr>
+                        <div id="div_id_endereco" class="form-group"> 
+                            <label for="id_endereco">Endereço</label> 
+                            <div class=""> 
+                                <input type="text" name="endereco" maxlength="255" class="textinput textInput form-control" id="id_endereco"> 
+                            </div> 
+                        </div> 
+                        <div id="div_id_bairro" class="form-group"> 
+                            <label for="id_bairro" class=" requiredField">Bairro</label> 
+                            <div class="">
+                                <input type="text" name="bairro" maxlength="255" class="textinput textInput form-control" required="" id="id_bairro"> 
+                            </div> 
+                        </div> 
+                        <div id="div_id_cidade" class="form-group"> 
+                            <label for="id_cidade" class=" requiredField">Cidade</label> 
+                            <div class=""> 
+                                <input type="text" name="cidade" maxlength="255" class="textinput textInput form-control" required="" id="id_cidade">
+                            </div> 
+                        </div> 
+                        <div id="div_id_estado" class="form-group"> 
+                            <label for="id_estado" class=" requiredField">Estado</label> 
+                            <div class=""> 
+                                <input type="text" name="estado" maxlength="255" class="textinput textInput form-control" required="" id="id_estado"> 
+                            </div> 
+                        </div> 
+                        <div id="div_id_telefone" class="form-group"> 
+                            <label for="id_telefone" class=" requiredField">Telefone</label> 
+                            <div class=""> 
+                                <input type="text" name="telefone" maxlength="255" class="textinput textInput form-control" required="" id="id_telefone"> 
+                            </div> 
+                        </div> 
+                        <div id="div_id_zap" class="form-group"> 
+                            <label for="id_zap" class=" requiredField">Zap</label>
+                            <div class=""> 
+                                <input type="text" name="zap" maxlength="255" class="textinput textInput form-control" required="" id="id_zap"> 
+                            </div>
+                        </div>
+                        <input type="submit" class="btn btn-lg btn-success float-right" value="Criar Local">
+                    </form> {% endcomment %}

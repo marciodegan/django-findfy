@@ -1,0 +1,479 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br" class="js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths"><head>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <title>{{ obj.restaurante.name }}</title>
+
+        <!-- STYLES & SCRIPTS -->
+        {% comment %} <link href="{% static 'base/bundles/fontawesome.css' %}" rel="stylesheet"> {% endcomment %}
+        <link href="{% static 'base/bundles/simpleLine.css' %}" rel="stylesheet">
+        <link href="{% static 'base/bundles/css-animate.css' %}" rel="stylesheet">
+        <link href="{% static 'base/bundles/smartAppBannerCss.css' %}" rel="stylesheet">
+
+        <link href="{% static 'base/Content/bootstrap.css' %}" rel="stylesheet" type="text/css" id="bscss">
+        
+        <link href="{% static 'base/Content/app.css' %}" rel="stylesheet" type="text/css" id="maincss">
+        <link href="{% static 'base/Content/app.custom.css' %}" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto+Condensed:wght@300;700&display=swap" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" crossorigin="anonymous"></script>
+
+        <style>
+            #cardapio .cardapio-header .bg {
+                background-color: #000;
+            }
+        </style>
+    </head>    
+    <body class="layout-h layout-fixed">
+        <div class="wrapper" id="main-wrapper">
+            <header class="topnavbar-wrapper">
+                <a href="/table/{{ obj.restaurante.restaurante_ref }}/acgesate/{{obj.atendentes.code}}" class="btn btn-lg btn-danger bg-gradient-info text-white" style="padding:4px;margin-left:5px;margin-top:10px;"role="button">
+                <div>GESTÃO</div>
+                </a>
+                <a href="" data-target="#my_modal4" class="btn btn-lg btn-primary bg-gradient-info text-white" style="padding:4px;margin-top:10px;margin-left:5px;" data-toggle="modal" role="button">
+                <div>MESA</div>
+                </a>
+                <a href="" data-target="#my_modal3" class="btn btn-lg btn-primary bg-gradient-info text-white" style="padding:4px;margin-top:10px;margin-left:5px" data-toggle="modal" role="button">
+                <div class="text-smallest">CÓDIGO</div>
+                </a>
+                <a href="#my_modal5" class="btn btn-dark text-white" style="float:right;margin-top:10px;" data-toggle="modal" role="button">
+                <i class="fas fa-bars fa-lg"></i>
+                </a>        
+            </header>
+            
+            <!-- Main section-->
+            <section id="main-section">  
+                <!-- Page content-->
+                <div class="content-wrapper">  
+                    <div id="cardapio" class="content">
+                        <section class="cardapio-header2">
+                            <div class="bg"></div>
+                            <div class="gradient"></div>
+                            <div class="inner">
+                                <div class="head-name-gestao-atendente">
+                                <h5>{{ obj.restaurante.name}}</h5>                           
+                                </div>
+                                <div class="head-mesa-gestao-atendente">
+                                 <h5>MESA: {{obj.table_number.table_number}}</h5>
+                                </div>
+                            </div>     
+                        </section>
+                        <section id="secao-categories">                    
+                            <div class="container" style="position: relative;">
+                                <i id="btn-categories-left" class="fa fa-chevron-left text-primary hide"></i>
+                                <i id="btn-categories-right" class="fa fa-chevron-right text-primary"></i>
+                                <ul class="nav nav-pills nav-categorias">
+                                    <li class=""><a href="#{% for i in categ1 %}{{ i.categoria }}{% endfor %}"> {% for i in categ1 %}{{ i.categoria }}{% endfor %}</a></li>
+                                    <li class=""><a href="#{% for i in categ2 %}{{ i.categoria }}{% endfor %}"> {% for i in categ2 %}{{ i.categoria }}{% endfor %}</a></li>
+                                    <li class=""><a href="#{% for i in categ3 %}{{ i.categoria }}{% endfor %}"> {% for i in categ3 %}{{ i.categoria }}{% endfor %}</a></li>
+                                    <li class=""><a href="#{% for i in categ4 %}{{ i.categoria }}{% endfor %}"> {% for i in categ4 %}{{ i.categoria }}{% endfor %}</a></li>
+                                    <li class=""><a href="#{% for i in categ5 %}{{ i.categoria }}{% endfor %}"> {% for i in categ5 %}{{ i.categoria }}{% endfor %}</a></li>
+                                    <li><a href="#{% for i in categ6 %}{{ i.categoria }}{% endfor %}"> {% for i in categ6 %}{{ i.categoria }}{% endfor %}</a></li>
+                                    <li><a href="#{% for i in categ7 %}{{ i.categoria }}{% endfor %}"> {% for i in categ7 %}{{ i.categoria }}{% endfor %}</a></li>
+                                    <li><a href="#{% for i in categ8 %}{{ i.categoria }}{% endfor %}"> {% for i in categ8 %}{{ i.categoria }}{% endfor %}</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                        <section class="cardapio-body">
+                            <div class="container">
+                                {% if itenscat1 %}
+                                <div class="categories">
+                                    <div class="panel panel-danger" id="{% for i in categ1 %}{{ i.categoria }}{% endfor %}">
+                                        <div class="panel-heading bg-danger-light" role="tab" id="{% for i in categ1 %}{{ i.categoria }}{% endfor %}-heading" >
+                                            <h4 class="panel-title">
+                                                <a role="button" data-toggle="collapse" href="#1-collapse" aria-expanded="true" aria-controls="1-collapse" name="1-collapse">
+                                                    {% for i in categ1 %}{{ i.categoria }}{% endfor %}                     
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="1-collapse" class="panel-collapse collapse in" true="" role="tabpanel" aria-labelledby="bebidas-heading" data-loaded="false"><div class="panel-body products">
+                                            {% if itenscat1 %}
+                                            {% for i in itenscat1 %}
+                                            <div class="product-container">                             
+                                                <a class="product-item" href="#my_modal" data-toggle="modal" data-book-id="{{ i.id }}" data-restaurante=" {{obj.restaurante.restaurante_ref}}" data-price="{{i.price}}" data-mesa="{{obj.table_check_number}}" data-product="{{ i.item }}">            
+                                                    <div class="media">
+                                                        <div class="media-body">
+                                                            <div class="name">{{i.item}}</div>
+                                                            <div class="product-description-atend">{{i.descricao}}</div>
+                                                            <div class="product-description-atend">R$ {{i.price|stringformat:".2f"}}</div>
+                                                        </div> 
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                {% if itenscat2 %}
+                                <div class="categories">
+                                    <div class="panel panel-danger" id="{% for i in categ2 %}{{ i.categoria }}{% endfor %}">
+                                        <div class="panel-heading" role="tab" id="{% for i in categ2 %}{{ i.categoria }}{% endfor %}-heading">
+                                            <h4 class="panel-title">
+                                                <a role="button" data-toggle="collapse" href="#2-collapse" aria-expanded="true" aria-controls="2-collapse" name="2-collapse">
+                                                    {% for i in categ2 %}{{ i.categoria }}{% endfor %}
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="2-collapse" class="panel-collapse collapse in" true="" role="tabpanel" aria-labelledby="{% for i in categ2 %}{{ i.categoria }}{% endfor %}-heading" data-loaded="false"><div class="panel-body products">
+                                            {% if itenscat2 %}
+                                            {% for i in itenscat2 %}
+                                            <div class="product-container">                             
+                                                <a class="product-item"  data-imagem="{{ i.name_image.url }}" href="my_modal" data-toggle="modal" data-book-id="{{ i.id}}" data-target="#my_modal" data-restaurante=" {{obj.restaurante.restaurante_ref}}" data-price="{{i.price}}" data-mesa="{{obj.table_check_number}}" data-product="{{ i.item }}">            
+                                                    <div class="media">
+                                                        <div class="media-body">
+                                                            <div class="name">{{i.item}}</div>
+                                                            <div class="product-description-atend">{{i.descricao}}</div>
+                                                            <div class="product-description-atend">R$ {{i.price|stringformat:".2f"}}</div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}                                
+                                {% if itenscat3 %}
+                                <div class="categories">
+                                    <div class="panel panel-danger" id="{% for i in categ3 %}{{ i.categoria }}{% endfor %}">
+                                        <div class="panel-heading" role="tab" id="{% for i in categ3 %}{{ i.categoria }}{% endfor %}-heading">
+                                            <h4 class="panel-title">
+                                                <a role="button" data-toggle="collapse" href="#3-collapse" aria-expanded="true" aria-controls="3-collapse" name="3-collapse">
+                                                    {% for i in categ3 %}{{ i.categoria }}{% endfor %}
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="3-collapse" class="panel-collapse collapse in" true="" role="tabpanel" aria-labelledby="{% for i in categ3 %}{{ i.categoria }}{% endfor %}-heading" data-loaded="false"><div class="panel-body products">
+                                            {% if itenscat3 %}
+                                            {% for i in itenscat3 %}
+                                            <div class="product-container">                             
+                                                <a class="product-item"  data-imagem="{{ i.name_image.url }}" href="my_modal" data-toggle="modal" data-book-id="{{ i.id}}" data-target="#my_modal" data-restaurante=" {{obj.restaurante.restaurante_ref}}" data-price="{{i.price}}" data-mesa="{{obj.table_check_number}}" data-product="{{ i.item }}">            
+                                                    <div class="media">
+                                                        <div class="media-body">
+                                                            <div class="name">{{i.item}}</div>
+                                                            <div class="product-description-atend">{{i.descricao}}</div>
+                                                            <div class="product-description-atend">R$ {{i.price|stringformat:".2f"}}</div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                {% if itenscat4 %}    
+                                <div class="categories">
+                                    <div class="panel panel-danger" id="{% for i in categ4 %}{{ i.categoria }}{% endfor %}">
+                                        <div class="panel-heading" role="tab" id="{% for i in categ4 %}{{ i.categoria }}{% endfor %}-heading">
+                                            <h4 class="panel-title">
+                                                <a role="button" data-toggle="collapse" href="#4-collapse" aria-expanded="true" aria-controls="4-collapse" name="4-collapse">
+                                                    {% for i in categ4 %}{{ i.categoria }}{% endfor %}
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="4-collapse" class="panel-collapse collapse in" true="" role="tabpanel" aria-labelledby="bebidas-heading" data-loaded="false"><div class="panel-body products">
+                                            {% if itenscat4 %}
+                                            {% for i in itenscat4 %}
+                                            <div class="product-container">                             
+                                                <a class="product-item"  data-imagem="{{ i.name_image.url }}" href="my_modal" data-toggle="modal" data-book-id="{{ i.id}}" data-target="#my_modal" data-restaurante=" {{obj.restaurante.restaurante_ref}}" data-price="{{i.price}}" data-mesa="{{obj.table_check_number}}" data-product="{{ i.item }}">            
+                                                    <div class="media">
+                                                        <div class="media-body">
+                                                            <div class="name">{{i.item}}</div>
+                                                            <div class="product-description-atend">{{i.descricao}}</div>
+                                                            <div class="product-description-atend">R$ {{i.price|stringformat:".2f"}}</div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}                                
+                                {% if itenscat5 %}
+                                <div class="categories">
+                                    <div class="panel panel-danger" id="{% for i in categ5 %}{{ i.categoria }}{% endfor %}">
+                                        <div class="panel-heading" role="tab" id="{% for i in categ5 %}{{ i.categoria }}{% endfor %}-heading">
+                                            <h4 class="panel-title">
+                                                <a role="button" data-toggle="collapse" href="#5-collapse" aria-expanded="true" aria-controls="5-collapse" name="5-collapse">
+                                                    {% for i in categ5 %}{{ i.categoria }}{% endfor %}
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="5-collapse" class="panel-collapse collapse in" true="" role="tabpanel" aria-labelledby="{% for i in categ5 %}{{ i.categoria }}{% endfor %}-heading" data-loaded="false"><div class="panel-body products">
+                                            {% if itenscat5 %}
+                                            {% for i in itenscat5 %}
+                                            <div class="product-container">                             
+                                                <a class="product-item"  data-imagem="{{ i.name_image.url }}" href="my_modal" data-toggle="modal" data-book-id="{{ i.id}}" data-target="#my_modal" data-restaurante=" {{obj.restaurante.restaurante_ref}}" data-price="{{i.price}}" data-mesa="{{obj.table_check_number}}" data-product="{{ i.item }}">            
+                                                    <div class="media">
+                                                        <div class="media-body">
+                                                            <div class="name">{{i.item}}</div>
+                                                            <div class="product-description-atend">{{i.descricao}}</div>
+                                                            <div class="product-description-atend">R$ {{i.price|stringformat:".2f"}}</div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+
+        <div class="modal bd-example-modal-lg" id="my_modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                <div class="modal-header bg-danger">
+                    <h3 class="modal-title text-white text-center">CONFIRMAR PEDIDO</h3>
+                    <div class="text-right"><i class="far fa-times-circle fa-lg" data-dismiss="modal" aria-label="Close"></i></div>
+                </div>
+                <div class="modal-body">
+                <form method="POST" id="post-form">
+                    {% csrf_token %}
+                    <input type="hidden" class="form-control" id="bookId" name="bookId" />            
+                    <input type="hidden" class="form-control" id="restaurante" name="restaurante"/>
+                    <input type="hidden" class="form-control" id="mesa" name="mesa"/>
+                    <input type="text" class="form-control" id="product" name="product" readonly />
+                    <input type="text" class="form-control" id="price" name="price" readonly/>
+                    <textarea class="form-control" rows="2" id="obs" name="obs" placeholder="Observações do pedido" /></textarea>
+                    <br>
+                    <button type="submit" class="btn btn-lg btn-block btn-danger"><strong>CONFIRMAR</strong></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-lg btn-block btn-primary" data-dismiss="modal"><strong>CANCELAR</strong></button>
+                    <br>
+                    <br>
+                <br>
+                </div>
+                </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="my_modal3" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger">
+                        <h3 class="modal-title text-white text-center">Compartilhe SOMENTE</h3>
+                        <h3 class="modal-title text-white text-center">com os participantes da mesa {{obj.table_number.table_number}}</h3><br>
+
+                        <div class="text-right"><i class="far fa-times-circle fa-lg" data-dismiss="modal" aria-label="Close"></i></div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="card-body text-center" style="word-wrap: break-word;">   
+                            <img width="220" heigth="220" src={{obj.qr_code.url}} />
+                            <h6 class="text-smallest">{{obj.table_code}}</h6>
+                            <h6 class="text-small"><strong>NÃO compartilhe</strong> este link com pessoas que não estão na mesa.</h6>
+                            
+                        </div>
+                    </div>               
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary btn-lg btn-block" data-dismiss="modal">FECHAR</button>
+                    </div>    
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="my_modal4" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger">
+                        <div class="text-center">
+                            <h3 class="modal-title text-center text-white">Pedidos da mesa</h3>
+                            <h3 class="text-center text-white">MESA: {{obj.table_number.table_number}}</h3>
+                            <a href="" class="btn btn-lg btn-primary text-white" role="button">
+                            <div class="text-smallest">Atualizar</div></a>
+                            <div class="text-right"><i class="far fa-times-circle fa-lg" data-dismiss="modal" aria-label="Close"></i></div>
+                        </div>
+                    </div>
+                    <div class="modal-body" style="overflow-x: auto;">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class=".col-md-6 .ml-auto">
+                                    {% if tableitems %}
+                                    <div class="table-responsive-sm">
+                                        <table class="table table-sm">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th scope="col"><strong>Produto</strong></th>
+                                                    <th scope="col"><strong>Qtd</strong></th>
+                                                    <th scope="col"><strong>$</strong></th>
+                                                    <th scope="col"><strong>Na mesa</strong></th>
+                                                    <th scope="col"><strong>Quem</strong></th>
+                                                    <th scope="col"><strong>Quando</strong></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for i in tableitems %}
+                                                <tr>
+                                                    <td>{{i.item}}</td>
+                                                    <td>1</td>                                    
+                                                    <td>{{i.price|stringformat:".2f"}}</td>
+                                                    <td>{% if i.garconconfirmed is True %}<i class="fas fa-check"></i>{% endif %}</td>
+                                                    <td>{% if i.item_user == None %}ATENDENTE{% else %}{{i.item_user.first_name}}{% endif %}</td>
+                                                    <td>{{i.created_at|time:"G:i"}}</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    {% else %}
+                                    <h6 class="text-center">Não há registros neste momento</h6>
+                                    {% endif %}
+                                    {% if tableitems %}
+                                    <hr>
+                                    <h3 class="text-center text-dark">TOTAIS</h3>
+                                    <table class="table table-sm">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th scope="col"><strong>Quem</strong></th>
+                                                <th scope="col"><strong>Total</strong></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for i in table_items_total %}
+                                            <tr>
+                                                <td>{% if i.item_user__first_name %}{{i.item_user__first_name }}{% else %}Atendente*{% endif %}</td>
+                                                <td>$ {{ i.total|stringformat:".2f" }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <h5 class="text-center text-dark">*Valores lançados pelo(a) atendente devem ser distribuídos entre os clientes</h5>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="modal-footer">
+                        <a href="#collapseCard5" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCard5" class="btn btn-lg btn-block btn-primary text-white text-small btn-bold">Quem está na mesa</a>                          
+                        <div class="collapse" id="collapseCard5">
+                            <div class="card-body text-center">  
+                                <br>
+                                {% if tableuser %}
+                                {% for i in tableuser %}
+                                <a href="/profile/{{ obj.restaurante.restaurante_ref}}/{{ obj.table_check_number }}/{{i.table_user.userprofile.code}}" style="border-radius:50%;" role="button" class="btn btn-sm text-white mb-1"><img height="60" width="60" style="border-radius:50%;" src={{ i.table_user.userprofile.avatar.url }}><h6>{{ i.table_user.first_name }}</h6></a>
+                                {% endfor %}
+                                {% else %}
+                                <h6 class="text-center">Ninguém logado na mesa ainda</h6>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <br>
+                        <button type="button" class="btn btn-primary btn-lg btn-block" data-dismiss="modal">Fechar a lista</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="my_modal5" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header bg-danger">
+                    <h3 class="modal-title text-center text-white">{{ request.user.first_name }}</h3>
+                    <div class="text-right"><i class="far fa-times-circle fa-lg" data-dismiss="modal" aria-label="Close"></i></div>
+                </div>
+                <div class="modal-body" style="overflow-x: auto;">
+                            <a href="/" role="button" class="btn btn-lg btn-block btn-primary text-white text-small font-weight-bold"><strong>INÍCIO</strong></a>                          
+                
+                
+                            <a href="/profile" role="button" class="btn btn-lg btn-block btn-primary text-white text-small font-weight-bold"><strong>MEU PERFIL</strong></a>                          
+                <br>
+                    {% if obj.restaurante.user == request.user %}
+                    <a href="/local/{{obj.restaurante.restaurante_ref}}" role="button" class="btn btn-primary bg-primary btn-lg btn-block"><strong>PAINEL ADM</strong></a>
+                    {% endif %} 
+                    </div>
+                
+                
+                    
+                </div>
+            </div>
+        </div>
+
+        <!-- =============== VENDOR SCRIPTS ===============-->
+
+        <script src="{% static 'base/bundles/jquery.js' %}"></script>
+        <script src="{% static 'base/bundles/jquery2.js' %}"></script>
+        <script src="{% static 'base/bundles/jquery3.js' %}"></script>
+        <script src="{% static 'base/bundles/jquery4.js' %}"></script>
+        <script src="{% static 'base/bundles/jquery5.js' %}"></script>
+        <script src="{% static 'base/bundles/bootstrap.js' %}"></script>
+        <script src="{% static 'base/bundles/storage.js' %}"></script>
+        <script src="{% static 'base/bundles/animo.js' %}"></script>
+
+        <script src="{% static 'base/bundles/angle.js' %}"></script>
+        
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+        <script src="{% static 'base/js/scripts.js' %}"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script>
+
+            $('#my_modal').on('show.bs.modal', function(e) {
+
+                var bookId = $(e.relatedTarget).data('book-id');
+                var restaurante = $(e.relatedTarget).data('restaurante');
+                var mesa = $(e.relatedTarget).data('mesa');
+                var price = $(e.relatedTarget).data('price');
+                var product = $(e.relatedTarget).data('product');
+
+
+                $(e.currentTarget).find('input[name="bookId"]').val(bookId);
+                $(e.currentTarget).find('input[name="restaurante"]').val(restaurante);
+                $(e.currentTarget).find('input[name="mesa"]').val(mesa);
+                $(e.currentTarget).find('input[name="price"]').val(price);
+                $(e.currentTarget).find('input[name="product"]').val(product);
+
+            });
+
+            $('#my_modal').on('hidden.bs.modal', function (e) {
+            $(this)
+                .find("textarea")
+                .val('')
+                .end()
+            })
+
+
+            $(document).on('submit', '#post-form',function(e){
+                e.preventDefault();
+                $.ajax({
+                    type:'POST',
+                    url:'{% url "pre-adicionar-item-mesa-confirmado-atendente" %}',
+                    data:{
+                        
+                        bookId:$('#bookId').val(),
+                        restaurante:$('#restaurante').val(),
+                        mesa:$('#mesa').val(),
+                        price:$('#price').val(),
+                        product:$('#product').val(),
+                        obs:$('#obs').val(),
+                        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                        action: 'post'
+
+                    },
+                    success:function(json)
+                    {
+                        $('#my_modal').trigger('click');
+                        }
+                    
+
+
+                });
+            
+            });
+        </script> 
+    </body>
+</html>

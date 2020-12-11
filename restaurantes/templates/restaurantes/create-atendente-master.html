@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}CADASTRO DE ATENDENTES{% endblock %}
+{% block content %}
+            <main>
+                <div class="container-fluid bg-primary">
+                    <div class= "row mb-1 pt-3">
+                        <div class="col-lg-6">
+                            <div class="card shadow mb-2 bg-light" style="border-radius: 10px;">
+                                <div class="card-header text-center font-weight-bold pt-2">
+                                    <h6 class="text-center text-dark font-weight-bold">CADASTROS DE ATENDENTES MASTER</h6>
+                                    <form method="GET" id="search-form">
+                                        <input class="form-control" type="text" id="search" name="search" placeholder="Digite o e-mail do atendente" value="{{ request.GET.search }}">
+                                        <br>
+                                        <button type="submit" class="btn btn-primary btn-block btn-lg font-weight-bold" role="button">Buscar</button>
+                                    </form>
+                                </div>
+                                {% if list %}
+                                <div class="card-body">
+                                    {% for i in list %}
+                                    <div class="row align-items-center">
+                                        <div class="col-sm text-center">
+                                            <a href="/profile/{{i.like_from.userprofile.code}}"><img height="100" width="100" style="border-radius:50%;" src="{{ i.userprofile.avatar.url }}"></a>
+                                        </div>
+                                        <div class="col-sm">
+                                            <h6 class="text-center font-weight-bold text-dark">{{ i.first_name }} {{ i.last_name }}</h6>
+                                            <a href="/local/{{local.restaurante_ref}}/{{ i.email }}/add-atendente-master" class="btn btn-primary btn-block btn-lg font-weight-bold" role="button">Cadastrar</a>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="card shadow mb-2 bg-light" style="border-radius: 10px;">
+                                <div class="card-body">
+                                    <h6 class="text-center font-weight-bold text-dark">ATENDENTES MASTER CADASTRADOS</h6>
+                                    <hr>
+                                    {% if list_atendentes %}
+                                    {% for i in list_atendentes %}   
+                                    <div class="row align-items-center mb-3">
+                                        <div class="col-sm text-center">
+                                            <img height="80" width="80" style="border-radius:50%;" src="{{ i.atendentemaster.userprofile.avatar.url }}">
+                                            <h6 class="text-center font-weight-bold text-dark">{{ i.atendentemaster.first_name }} {{ i.atendentemaster.last_name }}</h6>
+                                            <h6>está {% if i.status == True %}ativado(a){% elif i.status == False %}desativado(a){% endif %}</h6>
+                                        </div>
+                                        <div class="col-sm">
+                                            {% if i.status == True %}
+                                            <a href="{{i.id}}/ativar-atendente-master" class="btn btn-danger btn-block btn-lg font-weight-bold" role="button">Desativar</a>
+                                            {% elif i.status == False %}
+                                            <a href="{{i.id}}/ativar-atendente-master" class="btn btn-primary btn-block btn-lg font-weight-bold" role="button">Ativar</a>
+                                            {% endif %}
+                                            <a href="{{i.id}}/delete-atendente-master" class="btn btn-primary btn-block btn-lg font-weight-bold" role="button">Descadastrar</a>
+                                        </div>
+                                    </div>
+                                    <hr> 
+                                    {% endfor %}                              
+                                    {% else %}
+                                    <h6 class="text-center">Não há atendentes cadastrados no momento.</h6>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6">
+                            <div class="card shadow mb-2 bg-light" style="border-radius: 10px;"> 
+                                <div class="card-body">
+                                    <a href="/local/{{local.restaurante_ref}}/create-atendente" class="btn btn-primary btn-lg btn-block" role="button"><i class="fas fa-chevron-left fa-sm"></i><strong>   Voltar</strong></a>
+                                    <br>
+                                    <a href="create-cozinha" class="btn btn-primary btn-lg btn-block" role="button"><strong>Cadastrar Cozinha</strong>   <i class="fas fa-chevron-right fa-sm"></i></a>
+                                    <br>
+                                    <a href="/local/{{local.restaurante_ref}}" class="btn btn-primary btn-block btn-lg" role="button"><strong>Início</strong></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>                       
+            </main>
+
+        {% comment %} <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script> {% endcomment %}
+        {% comment %} <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script> {% endcomment %}
+        {% comment %} <script src="{% static 'base/js/scripts.js' %}"></script> {% endcomment %}
+{% endblock %}

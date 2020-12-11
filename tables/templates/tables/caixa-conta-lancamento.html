@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load mathfilters %}
+{% load crispy_forms_tags %}
+
+{% block title %}Mesas{% endblock %}
+{% block content %}
+        <main>
+            <div class="container-fluid bg-gradient-dark">
+                <div class= "row">
+                    <div class="col-lg-12 pt-3">                       
+                        <div class="card shadow bg-dark text-white mb-2">
+                            <div class="card-body text-center p-2">                  
+                                <h5>MESA: <strong> {{ obj.table_number.table_number }} - TOTAL: $ <strong>{{ table_items_total|stringformat:".2f" }}</strong></h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">                       
+                        <div class="card shadow bg-dark text-white mb-2">
+                                <h5 class="text-center pt-2">LANÇAR VALORES</h5>
+                            <div class="card-body">                  
+                                <form action="{% url 'caixa-lancamento-view' id=obj.table_check_number rest=obj.restaurante.restaurante_ref %}" method="POST">
+                                    {% csrf_token %}
+                                    {{ form|crispy }}
+                                    <br>
+                                    <input type="submit" class="btn btn-primary btn-block btn-lg" value="Lançar!">
+                                <h5 class="text-center pt-2">Lançar troco com valor negativo (-)</h5>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="col-lg-6">
+                        <div class="card shadow">
+                           
+                            <div class="card-body text-medium p-2">                                                
+                                <table class="table table-sm table-hover text-small text-center" width="100%" cellspacing="0">
+                                    <tfoot class="bg-secondary text-white">
+                                        <tr>
+                                            <td>TOTAL RECEBIDO</td>
+                                            <td>$ {{ total_lancado|stringformat:".2f" }}</td>
+                                            <td></td>    
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        {% for i in valorescaixa %}
+                                        <tr>
+                                            <td>{{ i.forma_pagamento.forma_pagamento}}</td>
+                                            <td>$ {{ i.valor|stringformat:".2f" }}</td>
+                                            <td><a href="{{i.id}}/delete" class="delete-btn"><span><i class="fas fa-trash fa-sm"></i></span></a></td>                                    
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                <div class="card-body bg-secondary" style="border-radius:10px;">
+                                <table class="table table-sm table-hover text-small text-center bg-light">
+                                    <tbody>
+                                        <tr class="text-large font-weight-bold">
+                                            <td>TOTAL CONTA</td>
+                                            <td>$ {{ table_items_total|stringformat:".2f" }}</td>    
+                                        </tr>
+                                        <tr class="text-large font-weight-bold">
+                                            <td>TOTAL RECEBIDO</td>
+                                            <td>$ {{ total_lancado|stringformat:".2f" }}</td>    
+                                        </tr>
+                                    </tbody>
+                                    <tfoot class="bg-dark text-white">    
+                                        <tr class="text-large font-weight-bold">
+                                            <th >GERAL</td>
+                                            <td>$ {{ table_items_total|sub:total_lancado|stringformat:".2f" }}</td>    
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                                {% if table_items_total|sub:total_lancado == 0 %}
+                                    <h3 class="text-center"><span class="badge badge-primary">CONTA FECHADA</span></h3>
+                                    {% else %}
+                                    <h3 class="text-center"><span class="badge badge-danger">CONTA EM ABERTO</span></h3>
+                                    {% endif %}
+                                </div>
+                                 
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div>
+                <div class="row">
+                    <div class="card-body">
+                        {% if table_items_total|sub:total_lancado == 0 %}
+                        <a href="/table/{{obj.restaurante.restaurante_ref }}/{{ obj.table_check_number }}/contapaga" class="btn btn-dark bg-gradient-primary btn-block btn-lg" role="button">
+                            <strong>FECHAR CONTA</strong>
+                        </a>
+                        {% endif %}
+
+                        <a href="/table/{{obj.restaurante.restaurante_ref }}/tables/caixa" class="btn btn-dark bg-gradient-danger btn-block btn-lg" role="button">
+                            <strong>CANCELAR</strong>
+                        </a>
+                    </div>
+                </div>
+            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+            </div>
+        </main>
+   
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="{% static 'base/js/scripts.js' %}"></script>
+
+{% endblock %}                 
+
+
+

@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Criar Produto{% endblock %}
+{% block content %}
+
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid bg-primary">
+                  <div class= "row mb-1 pt-3">
+                        <div class="col-xl-6">
+                            <div class="card shadow mb-4 bg-light" style="border-radius: 10px;">
+                                <div class="card-header text-center font-weight-bold">
+                                    CADASTRO DE PRODUTOS
+                                </div>
+                                <div class="card-body">
+                                    <form method="POST" enctype="multipart/form-data">
+                                        {% csrf_token %}    
+                                        {{ form|crispy }}
+                                        <br>
+                                        <input type="submit" class="btn btn-primary btn-lg btn-block font-weight-bold" value="Criar Produto">
+                                    </form>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6">
+                            <div class="card shadow mb-4 bg-light" style="border-radius: 10px;">
+                                <div class="card-header text-center font-weight-bold">
+                                    PRODUTOS CADASTRADOS
+                                </div>
+                                <div class="card-body">
+                                    <h6 class="text-right text-small"></h6>
+                                    <div class="table-responsive">
+                                    <table class="table table-sm table-hover text-small text-center">
+                                        <thead class="thead-light text-small text-center">
+                                            <tr>
+                                                <th>ATIVO</th>
+                                                <th>NOME</th>
+                                                <th>PREÇO</th>
+                                                <th>FOTO</th>
+                                                <th>EDITAR</th>
+                                                <th>APAGAR</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for i in list %}
+                                            <tr>                                                
+                                                <td>{% if i.status == True %}<span><i class="fas fa-lg fa-check-circle text-primary"></i></span>{% else %}{% endif %}</td>
+                                                <td>{{ i.item }}</td>
+                                                <td>{{ i.price|stringformat:".2f" }}</td>
+                                                <td>{% if i.name_image %}
+                                                <div><img width="40" heigth="40" src="{{ i.name_image.url }}"></div>
+                                                {% endif %}
+                                                </td>
+                                                <td><a href="{{ i.code_id }}/editproduto"><span><i class="fas fa-edit fa-lg"></i></span></a></td>
+                                                <td><a href="{{i.code_id}}/deleteproduto" class="delete-btn"><span><i class="fas fa-trash fa-lg"></i></span></a></td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6">
+                            <div class="card shadow mb-2 bg-light" style="border-radius: 10px;"> 
+                                <div class="card-body">
+                                    <a href="/local/{{local.restaurante_ref}}/createcategoria" class="btn btn-primary btn-lg btn-block" role="button"><i class="fas fa-chevron-left fa-sm"></i> <strong>Cadastrar Categorias</strong></a>
+                                    <br>
+                                    <a href="createmesa" class="btn btn-primary btn-lg btn-block" role="button"><strong>Cadastrar Mesas </strong>  <i class="fas fa-chevron-right fa-sm"></i></a>
+                                    <br>
+                                    <a href="/local/{{local.restaurante_ref}}" class="btn btn-primary btn-block btn-lg" role="button"><strong>Início</strong></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>                       
+            </main>
+        </div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+        {% comment %} <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script> {% endcomment %}
+        <script src="{% static 'base/js/scripts.js' %}"></script>
+{% endblock %}
+
+
+{% comment %} 
+<form method="POST">                                        
+                                    {% csrf_token %}    
+                                    <div id="div_id_item" class="form-group"> 
+                                        <label for="id_item" class=" requiredField">Produto<span class="asteriskField">*</span></label>
+                                        <div class="">
+                                            <input type="text" name="item" maxlength="30" class="textinput textInput form-control" required id="id_item"> 
+                                        </div> 
+                                    </div> 
+                                    <div id="div_id_descricao" class="form-group"> 
+                                        <label for="id_descricao">Descrição</label> 
+                                        <div class=""> 
+                                            <input type="text" name="descricao" maxlength="144" class="textinput textInput form-control"> 
+                                        </div> 
+                                    </div> 
+                                    <div id="div_id_categoria" class="form-group"> 
+                                        <label for="id_categoria">Categoria</label> 
+                                        <div class=""> 
+                                            <select name="categoria" class="selectmultiple form-control" multiple> 
+                                                {% for i in categorias %}
+                                                <option value={{i.id}} oninvalid="this.setCustomValidity('Selecione categoria')" required>{{i.categoria}}</option>
+                                                {% endfor %}
+                                            </select>  
+                                        </div> 
+                                    </div> 
+                                    <div id="div_id_menu" class="form-group"> 
+                                        <label for="id_menu">Menu(s):</label> 
+                                        <div class=""> 
+                                            <select name="menu" class="selectmultiple form-control" multiple> 
+                                                {% for i in menus %}
+                                                <option value={{i.id}} oninvalid="this.setCustomValidity('Selecione Menu')" required>{{i.nome}}</option>
+                                                {% endfor %}
+                                            </select>  
+                                        </div> 
+                                    </div>
+                                    <div id="div_id_price" class="form-group"> 
+                                        <label for="id_price">Price</label> 
+                                        <div class=""> 
+                                            <input type="number" name="price" step="any" class="numberinput form-control"> 
+                                        </div> 
+                                    </div> 
+                                    <div id="div_id_status" class="form-check"> 
+                                        <label for="id_status" class="form-check-label">Ativo</label>
+                                        <div class=""> 
+                                            <input type="checkbox" name="status" id="id_status"> 
+                                        </div>
+                                    </div>           
+                                        <input type="submit" class="btn btn-primary btn-lg float-right" value="Criar Produto">
+                                    </form> {% endcomment %}
